@@ -40,6 +40,20 @@ ausgelegt, die Kamera steht in 70-mm-Brennweite mit f/5.6 Tiefenschärfe.
 3. `Run Script`. Das Skript wendet alle Modifier (Bevel, …) an und
    exportiert eine UE5-kompatible FBX (Y-up, Smoothing-Groups, Tangenten).
 
+#### Manueller Export (Alternative)
+
+Falls du `File → Export → FBX (.fbx)` benutzt, MUSS folgendes gesetzt
+sein – sonst kommt in UE5 die Warnung *„No smoothing group information
+was found"*:
+
+- **Include → Limit to: Selected Objects** (vorher Modell auswählen)
+- **Geometry → Smoothing: Face** (Default ist *Normals Only* → falsch!)
+- **Geometry → Apply Modifiers: ein**
+- **Geometry → Tangent Space: ein**
+- **Transform → Forward: -Z Forward**, **Up: Y Up**
+- **Transform → Apply Scalings: FBX All**, **Apply Unit: ein**
+- **Bake Space Transform: aus** (sonst gehen Smoothing Groups verloren)
+
 ### 2. In UE5 importieren
 
 1. Content Browser → Rechtsklick → **Import to /Game/...** → FBX wählen.

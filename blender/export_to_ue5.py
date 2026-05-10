@@ -66,19 +66,27 @@ def export_fbx(path, objs):
 
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
 
+    # WICHTIG: mesh_smooth_type muss 'FACE' oder 'EDGE' sein, damit UE5
+    # Smoothing Groups bekommt. 'OFF' fuehrt zur Warnung
+    # "No smoothing group information was found in this FBX scene".
+    # bake_space_transform=False lassen - in Kombination mit FACE-Smoothing
+    # gehen in einigen Blender-Versionen sonst die Gruppen verloren.
     bpy.ops.export_scene.fbx(
         filepath=path,
         use_selection=True,
-        global_scale=1.0,            # UE skaliert beim Import (Uniform Scale 100)
+        global_scale=1.0,
         apply_unit_scale=True,
         apply_scale_options="FBX_SCALE_NONE",
-        bake_space_transform=True,   # Achsen Y-up wie UE erwartet
+        bake_space_transform=False,
         object_types={"MESH"},
         use_mesh_modifiers=True,
-        mesh_smooth_type="FACE",     # Smoothing-Gruppen fuer UE5
+        mesh_smooth_type="FACE",     # <- Smoothing Groups fuer UE5
         use_subsurf=False,
+        use_mesh_edges=False,
         use_tspace=True,             # Tangenten fuer Normal Maps
         use_triangles=False,
+        use_custom_props=False,
+        add_leaf_bones=False,
         path_mode="COPY",
         embed_textures=False,
         axis_forward="-Z",
