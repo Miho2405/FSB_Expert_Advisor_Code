@@ -122,11 +122,29 @@ def assign_material(obj, mat):
 
 
 def shade_smooth(obj, angle_deg=30):
+    """Shade Smooth - kompatibel mit Blender 3.x und 4.x.
+
+    In Blender 4.1+ wurde mesh.use_auto_smooth entfernt; die Auto-Smooth
+    Funktion liegt jetzt im Operator 'shade_smooth_by_angle'. Wir versuchen
+    diesen, fallen sonst auf die Legacy-API zurueck.
+    """
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
     bpy.context.view_layer.objects.active = obj
+    if hasattr(bpy.ops.object, "shade_smooth_by_angle"):
+        try:
+            bpy.ops.object.shade_smooth_by_angle(angle=math.radians(angle_deg))
+            return
+        except Exception:
+            pass
     bpy.ops.object.shade_smooth()
-    obj.data.use_auto_smooth = True if hasattr(obj.data, "use_auto_smooth") else False
-    if hasattr(obj.data, "auto_smooth_angle"):
-        obj.data.auto_smooth_angle = math.radians(angle_deg)
+    if hasattr(obj.data, "use_auto_smooth"):
+        try:
+            obj.data.use_auto_smooth = True
+            if hasattr(obj.data, "auto_smooth_angle"):
+                obj.data.auto_smooth_angle = math.radians(angle_deg)
+        except AttributeError:
+            pass
 
 
 # ---------------------------------------------------------------------------
@@ -134,47 +152,65 @@ def shade_smooth(obj, angle_deg=30):
 # ---------------------------------------------------------------------------
 
 def build_body(mat_mantle, mat_lid, mat_base):
-    """Mantel, Deckel und Sockel."""
+    """Mantel (geschlossen), gewoelbter Deckel und Sockel."""
     radius = TANK_DIAMETER / 2
+    body_depth = TANK_HEIGHT - INSULATION_TOP - BASE_HEIGHT
+    body_z = BASE_HEIGHT + body_depth / 2
 
-    # Hauptmantel (Zylinder ohne Deckel)
+    # Hauptmantel - geschlossener Zylinder (NGON-Caps), damit nichts "offen" ist
     bpy.ops.mesh.primitive_cylinder_add(
         vertices=128,
         radius=radius,
-        depth=TANK_HEIGHT - INSULATION_TOP - BASE_HEIGHT,
-        location=(0, 0, BASE_HEIGHT + (TANK_HEIGHT - INSULATION_TOP - BASE_HEIGHT) / 2),
-        end_fill_type="NOTHING",
+        depth=body_depth,
+        location=(0, 0, body_z),
+        end_fill_type="NGON",
     )
     mantle = bpy.context.active_object
     mantle.name = "Pufferspeicher_Mantel"
-    # Solidify gibt dem Mantel ein wenig Materialstaerke
-    solid = mantle.modifiers.new("Solidify", "SOLIDIFY")
-    solid.thickness = 0.004
-    solid.offset = -1
+    bevel = mantle.modifiers.new("Bevel", "BEVEL")
+    bevel.width = 0.004
+    bevel.segments = 3
+    bevel.limit_method = "ANGLE"
+    bevel.angle_limit = math.radians(40)
     shade_smooth(mantle)
     assign_material(mantle, mat_mantle)
 
-    # Deckel (UV-Sphere oben abgeschnitten + flacher Zylinder)
-    bpy.ops.mesh.primitive_cylinder_add(
-        vertices=128,
-        radius=radius * 1.005,
-        depth=INSULATION_TOP,
-        location=(0, 0, TANK_HEIGHT - INSULATION_TOP / 2),
+    # Gewoelbter Deckel: obere Haelfte einer UV-Sphere, gestaucht
+    bpy.ops.mesh.primitive_uv_sphere_add(
+        segments=128, ring_count=64, radius=radius,
+        location=(0, 0, TANK_HEIGHT - INSULATION_TOP),
     )
     lid = bpy.context.active_object
     lid.name = "Pufferspeicher_Deckel"
-    bevel = lid.modifiers.new("Bevel", "BEVEL")
-    bevel.width = 0.012
-    bevel.segments = 6
+    # untere Haelfte wegschneiden
+    me = lid.data
+    bm = bmesh.new()
+    bm.from_mesh(me)
+    bmesh.ops.bisect_plane(
+        bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:],
+        plane_co=(0, 0, TANK_HEIGHT - INSULATION_TOP),
+        plane_no=(0, 0, -1),
+        clear_inner=True,
+    )
+    # Boden-Ngon schliessen
+    open_edges = [e for e in bm.edges if e.is_boundary]
+    if open_edges:
+        bmesh.ops.holes_fill(bm, edges=open_edges, sides=0)
+    bm.to_mesh(me)
+    bm.free()
+    # flach druecken: Hoehe = INSULATION_TOP statt radius
+    lid.scale.z = INSULATION_TOP / radius
+    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     shade_smooth(lid)
     assign_material(lid, mat_lid)
 
     # Sockel
     bpy.ops.mesh.primitive_cylinder_add(
         vertices=64,
-        radius=radius * 0.95,
+        radius=radius * 0.96,
         depth=BASE_HEIGHT,
         location=(0, 0, BASE_HEIGHT / 2),
+        end_fill_type="NGON",
     )
     base = bpy.context.active_object
     base.name = "Pufferspeicher_Sockel"
@@ -331,14 +367,15 @@ def setup_world_hdri(strength=1.2):
 
 def setup_camera_and_light():
     bpy.ops.object.camera_add(
-        location=(2.6, -2.4, 1.45),
-        rotation=(math.radians(78), 0, math.radians(48)),
+        location=(2.4, -2.6, 1.55),
+        rotation=(math.radians(80), 0, math.radians(42)),
     )
     cam = bpy.context.active_object
-    cam.data.lens = 70
-    cam.data.dof.use_dof = True
-    cam.data.dof.focus_distance = 3.2
-    cam.data.dof.aperture_fstop = 5.6
+    cam.data.lens = 65
+    if hasattr(cam.data, "dof"):
+        cam.data.dof.use_dof = True
+        cam.data.dof.focus_distance = 3.4
+        cam.data.dof.aperture_fstop = 5.6
     bpy.context.scene.camera = cam
 
     # Key Light
