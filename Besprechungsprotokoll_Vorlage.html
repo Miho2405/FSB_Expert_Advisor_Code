@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team-Meeting Nachhaltigkeit</title>
+    <title>Team-Meeting Nachhaltigkeit - WBS TRAINING</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,25 +13,45 @@
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Source Sans Pro', Arial, sans-serif;
             font-size: 11pt;
             color: #333;
             line-height: 1.6;
-            padding: 30px 40px;
+            padding: 0;
             max-width: 210mm;
             margin: 0 auto;
         }
 
+        .header-bar {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .logo-area {
+            padding: 10px 40px 5px 40px;
+        }
+
+        .logo-area img {
+            height: 40px;
+        }
+
+        .content {
+            padding: 10px 40px 30px 40px;
+        }
+
         h1 {
             font-size: 20pt;
-            color: #2e7d32;
+            color: #0071B2;
             margin-bottom: 3px;
+            font-weight: 700;
         }
 
         .subtitle {
             font-size: 11pt;
-            color: #666;
+            color: #B2B2B2;
             margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .meta-table {
@@ -41,24 +62,25 @@
         }
 
         .meta-table td {
-            border: 1px solid #ccc;
+            border: 1px solid #D9D9D9;
             padding: 6px 10px;
         }
 
         .meta-table .label {
-            background-color: #e8f5e9;
+            background-color: #D2E8F4;
             font-weight: 600;
-            color: #2e7d32;
+            color: #0071B2;
             width: 160px;
         }
 
         h2 {
             font-size: 13pt;
-            color: #2e7d32;
+            color: #0071B2;
             margin-top: 28px;
             margin-bottom: 10px;
             padding-bottom: 3px;
-            border-bottom: 2px solid #a5d6a7;
+            border-bottom: 2px solid #D2E8F4;
+            font-weight: 700;
         }
 
         table {
@@ -69,48 +91,49 @@
         }
 
         th, td {
-            border: 1px solid #ccc;
+            border: 1px solid #D9D9D9;
             padding: 7px 10px;
             text-align: left;
             vertical-align: top;
         }
 
         th {
-            background-color: #e8f5e9;
-            color: #2e7d32;
+            background-color: #0071B2;
+            color: #fff;
             font-weight: 600;
         }
 
         tr:nth-child(even) {
-            background-color: #fafff9;
+            background-color: #EEEEEE;
         }
 
         .notes-box {
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
             padding: 12px 15px;
             margin-bottom: 12px;
             min-height: 60px;
-            background: #fafff9;
+            background: #EEEEEE;
         }
 
         .notes-box h3 {
             font-size: 11pt;
-            color: #2e7d32;
+            color: #0071B2;
             margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .field-label {
             font-weight: 600;
             font-style: italic;
-            color: #555;
+            color: #0071B2;
             margin-top: 8px;
             margin-bottom: 4px;
             font-size: 10pt;
         }
 
         .field-content {
-            border: 1px solid #ddd;
+            border: 1px solid #D9D9D9;
             border-radius: 4px;
             min-height: 45px;
             padding: 6px 8px;
@@ -120,31 +143,35 @@
 
         .hint {
             font-size: 9pt;
-            color: #999;
+            color: #B2B2B2;
             font-style: italic;
         }
 
         .status-hint {
             font-size: 9pt;
-            color: #888;
+            color: #B2B2B2;
             font-style: italic;
             margin-top: 4px;
         }
 
-        .footer-note {
+        .accent-box {
             margin-top: 25px;
             padding: 10px 15px;
-            background-color: #f1f8e9;
-            border-left: 4px solid #2e7d32;
+            background-color: #D2E8F4;
+            border-left: 4px solid #FE5000;
             font-size: 9pt;
-            color: #555;
+            color: #333;
             font-style: italic;
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 4px 4px 0;
         }
 
         @media print {
             body {
-                padding: 15px 20px;
+                padding: 0;
+            }
+
+            .content {
+                padding: 10px 20px 15px 20px;
             }
 
             .notes-box {
@@ -159,169 +186,179 @@
 </head>
 <body>
 
-    <h1>Team-Meeting Nachhaltigkeit</h1>
-    <div class="subtitle">Zweiwoechentliches Teammeeting -- Protokoll</div>
+    <img class="header-bar" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAC3UAAABjCAMAAAHGcwjaAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAALTUExURQAAAABvsgBvrwBwsABuqgBqsABusgBusQBssQBvsgBuswBusQBwsQBxsgBwswBvsABwsQBcuQBwsgBtsQBxswBxqQBwsABwqwBuqwBwsQBusQBusABwsgBxsABusQBwsQBvsgBxsQBxsABvsABvsQBwsgBusQBvsgBvsQByrwBmsgBxsgAAqgBnrwBzrQBwsABvsQBwsgBuswBxsgBzuQBusABvsQBwsABtsQBvsABwsgBwsQBttABvsABwsQBurwBvsQBsrgBwsgBvrwBusABvsQBwsgBusgBxsgBwsABxsgBorQBvsQBtsQBwrwBwsgBnrABttgBvrwBusgBwsQBnswBwrwBxrwBvsABwsQBusgBvsABwsABusgBwsABwsgBtsgBvsQBxsgBusgBvtABwrABwsQBvsgBsrABxtABuswBvsABusQBssgBfnwBwsQBusgBxsgBxswBwswBusQBxswBqtAAAfwBtsABwsQBvsgBwsgBtsQBttgBxswBvsgBvsgBxsABwsgBxsgBusgBwsABwsQBvsgBusQBwsABxsQBwsgBvsgBIkQBusQBvsQBwsgBuswBxsgBvsgBxsABusQBvrwBusQBwsQBwsgBtswBwrwBvsABwsgBtsABxsgBvsABvsQBwsgBsswBwsQBvsQBwsgBwsgBvsQBvrwBtrgBvsQBvsABvswBwsQBwrQBmzABvswBxsQBurwBVqgBvsQBwsgBuswBwsABusABwsABvsQBvswBtsQBxrwBvrwBwsQBxswBvsABurQBxsQBytQBsrQBxtABvsABlrQBqrABvsQBwsQBusgBztABqqgBvsABxsQBxtABtqQBvsQBtsQBwsgBvrwBwsQBwswBvswBapQBvsABwsQBxsABurgBwsQBxsgBusgBwswBwsQBwsgBvsABurgBwsQBvsgBusgBwswBusQBxsQBwswBtsQBvr23V31sAAADxdFJOUwC3UG8eNx5fIX5fTIqpipm4C2RILwl/Ky4rLm+tuVyaeyRlJ/1GiqlVHRQ/AyAWj3CPUVoWf57+oYuqVjplhDNSNnGTYYCfYf9Lahausbq6JRxHvWYlgaBigUOjr3Fb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" alt="WBS Header">
 
-    <table class="meta-table">
-        <tr>
-            <td class="label">Datum:</td>
-            <td></td>
-            <td class="label">Protokoll-Nr.:</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="label">Uhrzeit:</td>
-            <td>_______ - _______ Uhr</td>
-            <td class="label">Protokollant/in:</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="label">Ort / Medium:</td>
-            <td></td>
-            <td class="label">Verteiler:</td>
-            <td></td>
-        </tr>
-    </table>
+    <div class="content">
 
-    <h2>Teilnehmer</h2>
-    <table>
-        <tr>
-            <th style="width:40px">Nr.</th>
-            <th>Name</th>
-            <th>Rolle / Aufgabenbereich</th>
-            <th style="width:80px">Anwesend</th>
-        </tr>
-        <tr><td>1</td><td></td><td></td><td></td></tr>
-        <tr><td>2</td><td></td><td></td><td></td></tr>
-        <tr><td>3</td><td></td><td></td><td></td></tr>
-        <tr><td>4</td><td></td><td></td><td></td></tr>
-        <tr><td>5</td><td></td><td></td><td></td></tr>
-        <tr><td>6</td><td></td><td></td><td></td></tr>
-        <tr><td>7</td><td></td><td></td><td></td></tr>
-        <tr><td>8</td><td></td><td></td><td></td></tr>
-    </table>
+        <div class="logo-area" style="padding-left:0; margin-bottom: 15px;">
+            <img src="data:image/png;base64,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" alt="WBS TRAINING Logo">
+        </div>
 
-    <h2>Agenda</h2>
-    <table>
-        <tr>
-            <th style="width:50px">TOP</th>
-            <th>Thema</th>
-            <th style="width:130px">Verantwortlich</th>
-        </tr>
-        <tr><td>1</td><td>Rueckblick &amp; Status offene Aufgaben</td><td></td></tr>
-        <tr><td>2</td><td></td><td></td></tr>
-        <tr><td>3</td><td></td><td></td></tr>
-        <tr><td>4</td><td></td><td></td></tr>
-        <tr><td>5</td><td>Verschiedenes</td><td></td></tr>
-    </table>
+        <h1>Team-Meeting Nachhaltigkeit</h1>
+        <div class="subtitle">Zweiwoechentliches Teammeeting -- Protokoll</div>
 
-    <h2>Besprechungsinhalte</h2>
+        <table class="meta-table">
+            <tr>
+                <td class="label">Datum:</td>
+                <td></td>
+                <td class="label">Protokoll-Nr.:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="label">Uhrzeit:</td>
+                <td>_______ - _______ Uhr</td>
+                <td class="label">Protokollant/in:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="label">Ort / Medium:</td>
+                <td></td>
+                <td class="label">Verteiler:</td>
+                <td></td>
+            </tr>
+        </table>
 
-    <div class="notes-box">
-        <h3>TOP 1: Rueckblick &amp; Status offene Aufgaben</h3>
-        <p class="hint">Updates seit dem letzten Meeting, erledigte Aufgaben, Fortschritte</p>
-        <div class="field-label">Besprochenes:</div>
-        <div class="field-content"></div>
-        <div class="field-label">Ergebnis / Entscheidung:</div>
-        <div class="field-content"></div>
-    </div>
+        <h2>Teilnehmer</h2>
+        <table>
+            <tr>
+                <th style="width:40px">Nr.</th>
+                <th>Name</th>
+                <th>Rolle / Aufgabenbereich</th>
+                <th style="width:80px">Anwesend</th>
+            </tr>
+            <tr><td>1</td><td></td><td></td><td></td></tr>
+            <tr><td>2</td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td></td><td></td><td></td></tr>
+            <tr><td>4</td><td></td><td></td><td></td></tr>
+            <tr><td>5</td><td></td><td></td><td></td></tr>
+            <tr><td>6</td><td></td><td></td><td></td></tr>
+            <tr><td>7</td><td></td><td></td><td></td></tr>
+            <tr><td>8</td><td></td><td></td><td></td></tr>
+        </table>
 
-    <div class="notes-box">
-        <h3>TOP 2:</h3>
-        <div class="field-label">Besprochenes:</div>
-        <div class="field-content"></div>
-        <div class="field-label">Ergebnis / Entscheidung:</div>
-        <div class="field-content"></div>
-    </div>
+        <h2>Agenda</h2>
+        <table>
+            <tr>
+                <th style="width:50px">TOP</th>
+                <th>Thema</th>
+                <th style="width:130px">Verantwortlich</th>
+            </tr>
+            <tr><td>1</td><td>Rueckblick &amp; Status offene Aufgaben</td><td></td></tr>
+            <tr><td>2</td><td></td><td></td></tr>
+            <tr><td>3</td><td></td><td></td></tr>
+            <tr><td>4</td><td></td><td></td></tr>
+            <tr><td>5</td><td>Verschiedenes</td><td></td></tr>
+        </table>
 
-    <div class="notes-box">
-        <h3>TOP 3:</h3>
-        <div class="field-label">Besprochenes:</div>
-        <div class="field-content"></div>
-        <div class="field-label">Ergebnis / Entscheidung:</div>
-        <div class="field-content"></div>
-    </div>
+        <h2>Besprechungsinhalte</h2>
 
-    <div class="notes-box">
-        <h3>TOP 4:</h3>
-        <div class="field-label">Besprochenes:</div>
-        <div class="field-content"></div>
-        <div class="field-label">Ergebnis / Entscheidung:</div>
-        <div class="field-content"></div>
-    </div>
+        <div class="notes-box">
+            <h3>TOP 1: Rueckblick &amp; Status offene Aufgaben</h3>
+            <p class="hint">Updates seit dem letzten Meeting, erledigte Aufgaben, Fortschritte</p>
+            <div class="field-label">Besprochenes:</div>
+            <div class="field-content"></div>
+            <div class="field-label">Ergebnis / Entscheidung:</div>
+            <div class="field-content"></div>
+        </div>
 
-    <div class="notes-box">
-        <h3>TOP 5: Verschiedenes</h3>
-        <div class="field-label">Besprochenes:</div>
-        <div class="field-content"></div>
-    </div>
+        <div class="notes-box">
+            <h3>TOP 2:</h3>
+            <div class="field-label">Besprochenes:</div>
+            <div class="field-content"></div>
+            <div class="field-label">Ergebnis / Entscheidung:</div>
+            <div class="field-content"></div>
+        </div>
 
-    <h2>Aufgaben &amp; naechste Schritte</h2>
-    <table>
-        <tr>
-            <th style="width:45px">Nr.</th>
-            <th>Aufgabe</th>
-            <th style="width:120px">Wer?</th>
-            <th style="width:90px">Bis wann?</th>
-            <th style="width:75px">Prioritaet</th>
-            <th style="width:80px">Status</th>
-        </tr>
-        <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
-    </table>
-    <div class="status-hint">Prioritaet: Hoch | Mittel | Niedrig &nbsp;&nbsp;&nbsp; Status: Offen | In Arbeit | Erledigt</div>
+        <div class="notes-box">
+            <h3>TOP 3:</h3>
+            <div class="field-label">Besprochenes:</div>
+            <div class="field-content"></div>
+            <div class="field-label">Ergebnis / Entscheidung:</div>
+            <div class="field-content"></div>
+        </div>
 
-    <h2>Offene Punkte aus vorherigen Meetings</h2>
-    <table>
-        <tr>
-            <th style="width:45px">Nr.</th>
-            <th>Thema</th>
-            <th style="width:120px">Wer?</th>
-            <th style="width:90px">Faellig</th>
-            <th style="width:80px">Status</th>
-        </tr>
-        <tr><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td><td></td></tr>
-    </table>
+        <div class="notes-box">
+            <h3>TOP 4:</h3>
+            <div class="field-label">Besprochenes:</div>
+            <div class="field-content"></div>
+            <div class="field-label">Ergebnis / Entscheidung:</div>
+            <div class="field-content"></div>
+        </div>
 
-    <h2>Risiken &amp; Hindernisse</h2>
-    <div class="notes-box">
-        <p class="hint">Gibt es Probleme, Verzoegerungen oder Risiken, die das Team betreffen?</p>
-        <br><br><br>
-    </div>
+        <div class="notes-box">
+            <h3>TOP 5: Verschiedenes</h3>
+            <div class="field-label">Besprochenes:</div>
+            <div class="field-content"></div>
+        </div>
 
-    <h2>Ideen &amp; Stimmung im Team</h2>
-    <div class="notes-box">
-        <p class="hint">Feedback, Verbesserungsvorschlaege, Teamstimmung</p>
-        <br><br><br>
-    </div>
+        <h2>Aufgaben &amp; naechste Schritte</h2>
+        <table>
+            <tr>
+                <th style="width:45px">Nr.</th>
+                <th>Aufgabe</th>
+                <th style="width:120px">Wer?</th>
+                <th style="width:90px">Bis wann?</th>
+                <th style="width:75px">Prioritaet</th>
+                <th style="width:80px">Status</th>
+            </tr>
+            <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <div class="status-hint">Prioritaet: Hoch | Mittel | Niedrig &nbsp;&nbsp;&nbsp; Status: Offen | In Arbeit | Erledigt</div>
 
-    <h2>Naechstes Meeting</h2>
-    <table class="meta-table">
-        <tr>
-            <td class="label">Datum:</td>
-            <td></td>
-            <td class="label">Uhrzeit:</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="label">Ort / Medium:</td>
-            <td colspan="3"></td>
-        </tr>
-        <tr>
-            <td class="label">Vorbereitung:</td>
-            <td colspan="3" style="min-height:35px"></td>
-        </tr>
-    </table>
+        <h2>Offene Punkte aus vorherigen Meetings</h2>
+        <table>
+            <tr>
+                <th style="width:45px">Nr.</th>
+                <th>Thema</th>
+                <th style="width:120px">Wer?</th>
+                <th style="width:90px">Faellig</th>
+                <th style="width:80px">Status</th>
+            </tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
 
-    <div class="footer-note">
-        Bitte das Protokoll innerhalb von 3 Werktagen auf Richtigkeit pruefen.
-        Aenderungswuensche an den/die Protokollant/in. Ohne Rueckmeldung gilt es als abgestimmt.
+        <h2>Risiken &amp; Hindernisse</h2>
+        <div class="notes-box">
+            <p class="hint">Gibt es Probleme, Verzoegerungen oder Risiken, die das Team betreffen?</p>
+            <br><br><br>
+        </div>
+
+        <h2>Ideen &amp; Stimmung im Team</h2>
+        <div class="notes-box">
+            <p class="hint">Feedback, Verbesserungsvorschlaege, Teamstimmung</p>
+            <br><br><br>
+        </div>
+
+        <h2>Naechstes Meeting</h2>
+        <table class="meta-table">
+            <tr>
+                <td class="label">Datum:</td>
+                <td></td>
+                <td class="label">Uhrzeit:</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="label">Ort / Medium:</td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td class="label">Vorbereitung:</td>
+                <td colspan="3" style="min-height:35px"></td>
+            </tr>
+        </table>
+
+        <div class="accent-box">
+            Bitte das Protokoll innerhalb von 3 Werktagen auf Richtigkeit pruefen.
+            Aenderungswuensche an den/die Protokollant/in. Ohne Rueckmeldung gilt es als abgestimmt.
+        </div>
+
     </div>
 
 </body>
