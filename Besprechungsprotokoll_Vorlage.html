@@ -6,11 +6,7 @@
     <title>Team-Meeting Nachhaltigkeit - WBS TRAINING</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Source Sans Pro', Arial, sans-serif;
@@ -22,264 +18,120 @@
             margin: 0 auto;
         }
 
-        h1 {
-            font-size: 20pt;
-            color: #0071B2;
-            margin-bottom: 3px;
-            font-weight: 700;
-        }
+        h1 { font-size: 20pt; color: #0071B2; margin-bottom: 3px; font-weight: 700; }
+        .subtitle { font-size: 11pt; color: #B2B2B2; margin-bottom: 8px; font-weight: 600; }
 
-        .subtitle {
-            font-size: 11pt;
-            color: #B2B2B2;
+        /* --- Toolbar --- */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
             margin-bottom: 20px;
+            padding: 10px 12px;
+            background: #f0f7fc;
+            border: 1px solid #D2E8F4;
+            border-radius: 6px;
+        }
+        .toolbar button {
+            font-family: inherit;
+            font-size: 9pt;
             font-weight: 600;
-        }
-
-        .meta-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 25px;
-            font-size: 10pt;
-        }
-
-        .meta-table td {
-            border: 1px solid #D9D9D9;
-            padding: 6px 10px;
-        }
-
-        .meta-table .label {
-            background-color: #D2E8F4;
-            font-weight: 600;
-            color: #0071B2;
-            width: 160px;
-        }
-
-        .meta-table td[contenteditable="true"] {
-            min-width: 120px;
-        }
-
-        h2 {
-            font-size: 13pt;
-            color: #0071B2;
-            margin-top: 28px;
-            margin-bottom: 10px;
-            padding-bottom: 3px;
-            border-bottom: 2px solid #D2E8F4;
-            font-weight: 700;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 5px;
-            font-size: 10pt;
-        }
-
-        th, td {
-            border: 1px solid #D9D9D9;
-            padding: 7px 10px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background-color: #0071B2;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f7fbfe;
-        }
-
-        td[contenteditable="true"] {
-            outline: none;
-            min-height: 20px;
-        }
-
-        td[contenteditable="true"]:focus {
-            background-color: #fffde7;
-            box-shadow: inset 0 0 0 2px #FE5000;
-        }
-
-        .notes-box {
-            border: 1px solid #D9D9D9;
+            padding: 5px 12px;
             border-radius: 4px;
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            background: #f7fbfe;
-        }
-
-        .notes-box h3 {
-            font-size: 11pt;
+            cursor: pointer;
+            border: 1px solid #0071B2;
+            background: #fff;
             color: #0071B2;
-            margin-bottom: 6px;
-            font-weight: 700;
+        }
+        .toolbar button:hover { background: #0071B2; color: #fff; }
+        .toolbar button.primary { background: #0071B2; color: #fff; }
+        .toolbar button.primary:hover { background: #005a8e; }
+        .toolbar button.orange { background: #FE5000; color: #fff; border-color: #FE5000; }
+        .toolbar button.orange:hover { background: #e04600; }
+        .toolbar .save-status {
+            font-size: 8pt;
+            color: #888;
+            align-self: center;
+            margin-left: auto;
         }
 
-        .field-label {
-            font-weight: 600;
-            color: #0071B2;
-            margin-top: 8px;
-            margin-bottom: 4px;
-            font-size: 10pt;
-        }
+        /* --- Meta --- */
+        .meta-table { width: 100%; border-collapse: collapse; margin-bottom: 25px; font-size: 10pt; }
+        .meta-table td { border: 1px solid #D9D9D9; padding: 6px 10px; }
+        .meta-table .label { background-color: #D2E8F4; font-weight: 600; color: #0071B2; width: 160px; }
+        .meta-table td[contenteditable="true"] { min-width: 120px; }
 
+        h2 { font-size: 13pt; color: #0071B2; margin-top: 28px; margin-bottom: 10px; padding-bottom: 3px; border-bottom: 2px solid #D2E8F4; font-weight: 700; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 5px; font-size: 10pt; }
+        th, td { border: 1px solid #D9D9D9; padding: 7px 10px; text-align: left; vertical-align: top; }
+        th { background-color: #0071B2; color: #fff; font-weight: 600; }
+        tr:nth-child(even) { background-color: #f7fbfe; }
+
+        td[contenteditable="true"] { outline: none; min-height: 20px; }
+        td[contenteditable="true"]:focus { background-color: #fffde7; box-shadow: inset 0 0 0 2px #FE5000; }
+
+        .notes-box { border: 1px solid #D9D9D9; border-radius: 4px; padding: 12px 15px; margin-bottom: 12px; background: #f7fbfe; }
+        .notes-box h3 { font-size: 11pt; color: #0071B2; margin-bottom: 6px; font-weight: 700; }
+
+        .field-label { font-weight: 600; color: #0071B2; margin-top: 8px; margin-bottom: 4px; font-size: 10pt; }
         .field-content {
-            border: 1px solid #D9D9D9;
-            border-radius: 4px;
-            min-height: 50px;
-            padding: 8px 10px;
-            margin-bottom: 8px;
-            background-color: #fff;
-            outline: none;
-            line-height: 1.5;
+            border: 1px solid #D9D9D9; border-radius: 4px; min-height: 50px;
+            padding: 8px 10px; margin-bottom: 8px; background-color: #fff;
+            outline: none; line-height: 1.5;
         }
+        .field-content:focus { box-shadow: inset 0 0 0 2px #FE5000; background-color: #fffde7; }
 
-        .field-content:focus {
-            box-shadow: inset 0 0 0 2px #FE5000;
-            background-color: #fffde7;
-        }
+        .hint { font-size: 9pt; color: #B2B2B2; font-style: italic; }
+        .status-hint { font-size: 9pt; color: #B2B2B2; font-style: italic; margin-top: 4px; margin-bottom: 10px; }
 
-        .hint {
-            font-size: 9pt;
-            color: #B2B2B2;
-            font-style: italic;
+        .add-row-btn, .add-top-btn {
+            display: inline-block; background-color: #D2E8F4; color: #0071B2;
+            border: 1px solid #0071B2; border-radius: 4px; padding: 4px 14px;
+            font-size: 10pt; font-weight: 600; cursor: pointer; margin-bottom: 15px; font-family: inherit;
         }
-
-        .status-hint {
-            font-size: 9pt;
-            color: #B2B2B2;
-            font-style: italic;
-            margin-top: 4px;
-            margin-bottom: 10px;
-        }
-
-        .add-row-btn {
-            display: inline-block;
-            background-color: #D2E8F4;
-            color: #0071B2;
-            border: 1px solid #0071B2;
-            border-radius: 4px;
-            padding: 4px 14px;
-            font-size: 10pt;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 15px;
-            font-family: inherit;
-        }
-
-        .add-row-btn:hover {
-            background-color: #0071B2;
-            color: #fff;
-        }
-
-        .add-top-btn {
-            display: inline-block;
-            background-color: #D2E8F4;
-            color: #0071B2;
-            border: 1px solid #0071B2;
-            border-radius: 4px;
-            padding: 4px 14px;
-            font-size: 10pt;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 15px;
-            font-family: inherit;
-        }
-
-        .add-top-btn:hover {
-            background-color: #0071B2;
-            color: #fff;
-        }
+        .add-row-btn:hover, .add-top-btn:hover { background-color: #0071B2; color: #fff; }
 
         .accent-box {
-            margin-top: 25px;
-            padding: 10px 15px;
-            background-color: #D2E8F4;
-            border-left: 4px solid #FE5000;
-            font-size: 9pt;
-            color: #333;
-            font-style: italic;
-            border-radius: 0 4px 4px 0;
+            margin-top: 25px; padding: 10px 15px; background-color: #D2E8F4;
+            border-left: 4px solid #FE5000; font-size: 9pt; color: #333;
+            font-style: italic; border-radius: 0 4px 4px 0;
         }
 
+        /* --- Copilot --- */
         .copilot-section {
-            margin-top: 30px;
-            border: 2px dashed #FE5000;
-            border-radius: 8px;
-            padding: 15px;
-            background-color: #fff8f5;
+            margin-top: 30px; border: 2px dashed #FE5000; border-radius: 8px;
+            padding: 15px; background-color: #fff8f5;
         }
-
-        .copilot-section h2 {
-            color: #FE5000;
-            border-bottom-color: #FE5000;
-            margin-top: 0;
-        }
-
+        .copilot-section h2 { color: #FE5000; border-bottom-color: #FE5000; margin-top: 0; }
         .copilot-textarea {
-            width: 100%;
-            min-height: 150px;
-            border: 1px solid #D9D9D9;
-            border-radius: 4px;
-            padding: 10px;
-            font-family: inherit;
-            font-size: 10pt;
-            line-height: 1.5;
-            resize: vertical;
-            outline: none;
+            width: 100%; min-height: 150px; border: 1px solid #D9D9D9; border-radius: 4px;
+            padding: 10px; font-family: inherit; font-size: 10pt; line-height: 1.5;
+            resize: vertical; outline: none;
         }
-
-        .copilot-textarea:focus {
-            border-color: #FE5000;
-            box-shadow: 0 0 0 2px rgba(254, 80, 0, 0.2);
-        }
-
+        .copilot-textarea:focus { border-color: #FE5000; box-shadow: 0 0 0 2px rgba(254,80,0,0.2); }
         .copilot-btn {
-            display: inline-block;
-            background-color: #FE5000;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 20px;
-            font-size: 11pt;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            font-family: inherit;
+            display: inline-block; background-color: #FE5000; color: #fff; border: none;
+            border-radius: 4px; padding: 8px 20px; font-size: 11pt; font-weight: 600;
+            cursor: pointer; margin-top: 10px; font-family: inherit;
         }
+        .copilot-btn:hover { background-color: #e04600; }
+        .copilot-hint { font-size: 9pt; color: #999; margin-top: 8px; line-height: 1.4; }
 
-        .copilot-btn:hover {
-            background-color: #e04600;
+        /* --- Toast --- */
+        .toast {
+            position: fixed; bottom: 20px; right: 20px; background: #0071B2; color: #fff;
+            padding: 10px 18px; border-radius: 6px; font-size: 10pt; font-weight: 600;
+            opacity: 0; transition: opacity 0.3s; z-index: 9999; pointer-events: none;
         }
-
-        .copilot-hint {
-            font-size: 9pt;
-            color: #999;
-            margin-top: 8px;
-            line-height: 1.4;
-        }
+        .toast.show { opacity: 1; }
 
         @media print {
-            .add-row-btn, .add-top-btn, .copilot-section {
-                display: none !important;
-            }
-
-            td[contenteditable="true"]:focus,
-            .field-content:focus {
-                box-shadow: none;
-                background-color: #fff;
-            }
-
-            .notes-box {
-                page-break-inside: avoid;
-            }
-
-            tr {
-                page-break-inside: avoid;
-            }
+            .add-row-btn, .add-top-btn, .copilot-section, .toolbar, .toast { display: none !important; }
+            td[contenteditable="true"]:focus, .field-content:focus { box-shadow: none; background-color: #fff; }
+            .notes-box { page-break-inside: avoid; }
+            tr { page-break-inside: avoid; }
+            body { padding: 15px 20px; }
         }
     </style>
 </head>
@@ -288,24 +140,35 @@
     <h1>Team-Meeting Nachhaltigkeit</h1>
     <div class="subtitle">Zweiwoechentliches Teammeeting &mdash; Protokoll</div>
 
-    <table class="meta-table">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button class="primary" onclick="neuesProtokoll()">Neues Protokoll</button>
+        <button onclick="speichern()">Speichern</button>
+        <button onclick="teamStammdatenSpeichern()">Team merken</button>
+        <button onclick="teamStammdatenLaden()">Team laden</button>
+        <button onclick="offenePunkteUebernehmen()">Offene Punkte uebernehmen</button>
+        <button class="orange" onclick="pdfExport()">Als PDF speichern</button>
+        <span class="save-status" id="save-status"></span>
+    </div>
+
+    <table class="meta-table" id="meta-table">
         <tr>
             <td class="label">Datum:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-datum"></td>
             <td class="label">Protokoll-Nr.:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-nr"></td>
         </tr>
         <tr>
             <td class="label">Uhrzeit:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-uhrzeit"></td>
             <td class="label">Protokollant/in:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-protokollant"></td>
         </tr>
         <tr>
             <td class="label">Ort / Medium:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-ort"></td>
             <td class="label">Verteiler:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="meta-verteiler"></td>
         </tr>
     </table>
 
@@ -346,7 +209,6 @@
 
     <h2>Besprechungsinhalte</h2>
     <div id="tops-container">
-
         <div class="notes-box" data-top="1">
             <h3 contenteditable="true">TOP 1: Rueckblick &amp; Status offene Aufgaben</h3>
             <p class="hint">Updates seit dem letzten Meeting, erledigte Aufgaben, Fortschritte</p>
@@ -355,7 +217,6 @@
             <div class="field-label">Ergebnis / Entscheidung:</div>
             <div class="field-content" contenteditable="true" data-field="ergebnis"></div>
         </div>
-
         <div class="notes-box" data-top="2">
             <h3 contenteditable="true">TOP 2:</h3>
             <div class="field-label">Besprochenes:</div>
@@ -363,7 +224,6 @@
             <div class="field-label">Ergebnis / Entscheidung:</div>
             <div class="field-content" contenteditable="true" data-field="ergebnis"></div>
         </div>
-
         <div class="notes-box" data-top="3">
             <h3 contenteditable="true">TOP 3:</h3>
             <div class="field-label">Besprochenes:</div>
@@ -371,7 +231,6 @@
             <div class="field-label">Ergebnis / Entscheidung:</div>
             <div class="field-content" contenteditable="true" data-field="ergebnis"></div>
         </div>
-
     </div>
     <button class="add-top-btn" onclick="addTOP()">+ Weiteren TOP hinzufuegen</button>
 
@@ -415,32 +274,32 @@
     <button class="add-row-btn" onclick="addOffen()">+ Offenen Punkt hinzufuegen</button>
 
     <h2>Risiken &amp; Hindernisse</h2>
-    <div class="notes-box">
+    <div class="notes-box" id="risiken-box">
         <p class="hint">Gibt es Probleme, Verzoegerungen oder Risiken, die das Team betreffen?</p>
-        <div class="field-content" contenteditable="true" style="min-height:60px; margin-top:8px;"></div>
+        <div class="field-content" contenteditable="true" style="min-height:60px; margin-top:8px;" id="risiken-content"></div>
     </div>
 
     <h2>Ideen &amp; Stimmung im Team</h2>
-    <div class="notes-box">
+    <div class="notes-box" id="stimmung-box">
         <p class="hint">Feedback, Verbesserungsvorschlaege, Teamstimmung</p>
-        <div class="field-content" contenteditable="true" style="min-height:60px; margin-top:8px;"></div>
+        <div class="field-content" contenteditable="true" style="min-height:60px; margin-top:8px;" id="stimmung-content"></div>
     </div>
 
     <h2>Naechstes Meeting</h2>
-    <table class="meta-table">
+    <table class="meta-table" id="next-meeting-table">
         <tr>
             <td class="label">Datum:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="next-datum"></td>
             <td class="label">Uhrzeit:</td>
-            <td contenteditable="true"></td>
+            <td contenteditable="true" id="next-uhrzeit"></td>
         </tr>
         <tr>
             <td class="label">Ort / Medium:</td>
-            <td colspan="3" contenteditable="true"></td>
+            <td colspan="3" contenteditable="true" id="next-ort"></td>
         </tr>
         <tr>
             <td class="label">Vorbereitung:</td>
-            <td colspan="3" contenteditable="true" style="min-height:35px"></td>
+            <td colspan="3" contenteditable="true" style="min-height:35px" id="next-vorbereitung"></td>
         </tr>
     </table>
 
@@ -458,7 +317,7 @@
         </p>
         <textarea class="copilot-textarea" id="copilot-input" placeholder="Copilot-Zusammenfassung hier einfuegen...
 
-Erkannte Schluesselwoerter fuer die Zuordnung:
+Erkannte Schluesselwoerter:
 - 'Teilnehmer:' → Teilnehmerliste
 - 'Agenda:' oder 'Tagesordnung:' → Agenda
 - 'TOP 1:', 'TOP 2:', etc. → Besprechungsinhalte
@@ -475,262 +334,587 @@ Erkannte Schluesselwoerter fuer die Zuordnung:
         </div>
     </div>
 
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
     <script>
-        // --- Zeilen hinzufuegen ---
+    // =============================================
+    // HILFSFUNKTIONEN
+    // =============================================
 
-        function addTeilnehmer() {
+    function toast(msg) {
+        var t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        setTimeout(function() { t.classList.remove('show'); }, 2500);
+    }
+
+    function formatDate(d) {
+        var dd = String(d.getDate()).padStart(2, '0');
+        var mm = String(d.getMonth() + 1).padStart(2, '0');
+        return dd + '.' + mm + '.' + d.getFullYear();
+    }
+
+    function addDays(d, n) {
+        var r = new Date(d);
+        r.setDate(r.getDate() + n);
+        return r;
+    }
+
+    // =============================================
+    // 1. AUTO-SAVE (alle 10 Sekunden)
+    // =============================================
+
+    var SAVE_KEY = 'wbs_protokoll_current';
+    var autoSaveTimer = null;
+
+    function collectData() {
+        var data = {};
+        // Meta
+        data.datum = document.getElementById('meta-datum').innerText;
+        data.nr = document.getElementById('meta-nr').innerText;
+        data.uhrzeit = document.getElementById('meta-uhrzeit').innerText;
+        data.protokollant = document.getElementById('meta-protokollant').innerText;
+        data.ort = document.getElementById('meta-ort').innerText;
+        data.verteiler = document.getElementById('meta-verteiler').innerText;
+
+        // Teilnehmer
+        data.teilnehmer = [];
+        var rows = document.querySelectorAll('#teilnehmer-table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            data.teilnehmer.push({
+                name: rows[i].cells[1].innerText,
+                rolle: rows[i].cells[2].innerText,
+                anwesend: rows[i].cells[3].innerText
+            });
+        }
+
+        // Agenda
+        data.agenda = [];
+        rows = document.querySelectorAll('#agenda-table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            data.agenda.push({
+                thema: rows[i].cells[1].innerText,
+                verantwortlich: rows[i].cells[2].innerText
+            });
+        }
+
+        // TOPs
+        data.tops = [];
+        var topBoxes = document.querySelectorAll('#tops-container .notes-box');
+        for (var i = 0; i < topBoxes.length; i++) {
+            var fields = topBoxes[i].querySelectorAll('.field-content');
+            data.tops.push({
+                title: topBoxes[i].querySelector('h3').innerText,
+                besprochenes: fields[0] ? fields[0].innerText : '',
+                ergebnis: fields[1] ? fields[1].innerText : ''
+            });
+        }
+
+        // Aufgaben
+        data.aufgaben = [];
+        rows = document.querySelectorAll('#aufgaben-table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            data.aufgaben.push({
+                aufgabe: rows[i].cells[1].innerText,
+                wer: rows[i].cells[2].innerText,
+                bis: rows[i].cells[3].innerText,
+                prio: rows[i].cells[4].innerText,
+                status: rows[i].cells[5].innerText
+            });
+        }
+
+        // Offene Punkte
+        data.offen = [];
+        rows = document.querySelectorAll('#offen-table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            data.offen.push({
+                thema: rows[i].cells[1].innerText,
+                wer: rows[i].cells[2].innerText,
+                faellig: rows[i].cells[3].innerText,
+                status: rows[i].cells[4].innerText
+            });
+        }
+
+        // Freitext
+        data.risiken = document.getElementById('risiken-content').innerText;
+        data.stimmung = document.getElementById('stimmung-content').innerText;
+
+        // Naechstes Meeting
+        data.nextDatum = document.getElementById('next-datum').innerText;
+        data.nextUhrzeit = document.getElementById('next-uhrzeit').innerText;
+        data.nextOrt = document.getElementById('next-ort').innerText;
+        data.nextVorbereitung = document.getElementById('next-vorbereitung').innerText;
+
+        data.savedAt = new Date().toISOString();
+        return data;
+    }
+
+    function speichern() {
+        var data = collectData();
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+
+        // Auch als Archiv speichern
+        var archivKey = 'wbs_protokoll_' + (data.nr || 'entwurf');
+        localStorage.setItem(archivKey, JSON.stringify(data));
+
+        var status = document.getElementById('save-status');
+        status.textContent = 'Gespeichert: ' + new Date().toLocaleTimeString('de-DE');
+        toast('Protokoll gespeichert');
+    }
+
+    function autoSave() {
+        var data = collectData();
+        localStorage.setItem(SAVE_KEY, JSON.stringify(data));
+        var status = document.getElementById('save-status');
+        status.textContent = 'Auto-Save: ' + new Date().toLocaleTimeString('de-DE');
+    }
+
+    function restoreData(data) {
+        if (!data) return;
+
+        document.getElementById('meta-datum').innerText = data.datum || '';
+        document.getElementById('meta-nr').innerText = data.nr || '';
+        document.getElementById('meta-uhrzeit').innerText = data.uhrzeit || '';
+        document.getElementById('meta-protokollant').innerText = data.protokollant || '';
+        document.getElementById('meta-ort').innerText = data.ort || '';
+        document.getElementById('meta-verteiler').innerText = data.verteiler || '';
+
+        // Teilnehmer
+        if (data.teilnehmer && data.teilnehmer.length > 0) {
             var tbody = document.querySelector('#teilnehmer-table tbody');
-            var nr = tbody.rows.length + 1;
-            var row = tbody.insertRow();
-            row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+            while (tbody.rows.length < data.teilnehmer.length) addTeilnehmer();
+            for (var i = 0; i < data.teilnehmer.length; i++) {
+                tbody.rows[i].cells[1].innerText = data.teilnehmer[i].name || '';
+                tbody.rows[i].cells[2].innerText = data.teilnehmer[i].rolle || '';
+                tbody.rows[i].cells[3].innerText = data.teilnehmer[i].anwesend || '';
+            }
         }
 
-        function addAgenda() {
+        // Agenda
+        if (data.agenda && data.agenda.length > 0) {
             var tbody = document.querySelector('#agenda-table tbody');
-            var nr = tbody.rows.length + 1;
-            var row = tbody.insertRow();
-            row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td>';
+            while (tbody.rows.length < data.agenda.length) addAgenda();
+            for (var i = 0; i < data.agenda.length; i++) {
+                tbody.rows[i].cells[1].innerText = data.agenda[i].thema || '';
+                tbody.rows[i].cells[2].innerText = data.agenda[i].verantwortlich || '';
+            }
         }
 
-        var topCounter = 3;
-
-        function addTOP() {
-            topCounter++;
+        // TOPs
+        if (data.tops && data.tops.length > 0) {
             var container = document.getElementById('tops-container');
-            var div = document.createElement('div');
-            div.className = 'notes-box';
-            div.setAttribute('data-top', topCounter);
-            div.innerHTML =
-                '<h3 contenteditable="true">TOP ' + topCounter + ':</h3>' +
-                '<div class="field-label">Besprochenes:</div>' +
-                '<div class="field-content" contenteditable="true" data-field="besprochenes"></div>' +
-                '<div class="field-label">Ergebnis / Entscheidung:</div>' +
-                '<div class="field-content" contenteditable="true" data-field="ergebnis"></div>';
-            container.appendChild(div);
-        }
-
-        function addAufgabe() {
-            var tbody = document.querySelector('#aufgaben-table tbody');
-            var nr = tbody.rows.length + 1;
-            var row = tbody.insertRow();
-            row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
-        }
-
-        function addOffen() {
-            var tbody = document.querySelector('#offen-table tbody');
-            var nr = tbody.rows.length + 1;
-            var row = tbody.insertRow();
-            row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
-        }
-
-        // --- Copilot-Parser ---
-
-        function parseCopilot() {
-            var text = document.getElementById('copilot-input').value.trim();
-            if (!text) {
-                alert('Bitte zuerst die Copilot-Zusammenfassung einfuegen.');
-                return;
-            }
-
-            var sections = splitSections(text);
-
-            if (sections.teilnehmer) fillTeilnehmer(sections.teilnehmer);
-            if (sections.agenda) fillAgenda(sections.agenda);
-            if (sections.tops && sections.tops.length > 0) fillTOPs(sections.tops);
-            if (sections.aufgaben) fillAufgaben(sections.aufgaben);
-            if (sections.offen) fillOffen(sections.offen);
-            if (sections.risiken) fillFreetext('risiken', sections.risiken);
-            if (sections.stimmung) fillFreetext('stimmung', sections.stimmung);
-            if (sections.fallback) fillFallback(sections.fallback);
-
-            alert('Zusammenfassung wurde verteilt. Bitte die Zuordnung pruefen und bei Bedarf anpassen.');
-        }
-
-        function splitSections(text) {
-            var result = {
-                teilnehmer: '',
-                agenda: '',
-                tops: [],
-                aufgaben: '',
-                offen: '',
-                risiken: '',
-                stimmung: '',
-                fallback: ''
-            };
-
-            var lines = text.split('\n');
-            var current = 'fallback';
-            var currentTopIdx = -1;
-            var buffer = [];
-
-            for (var i = 0; i < lines.length; i++) {
-                var line = lines[i];
-                var lower = line.toLowerCase().trim();
-
-                var matched = false;
-
-                if (/^teilnehmer/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'teilnehmer';
-                    matched = true;
-                } else if (/^(agenda|tagesordnung)/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'agenda';
-                    matched = true;
-                } else if (/^top\s*\d+/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'top';
-                    currentTopIdx = result.tops.length;
-                    result.tops.push({ title: line.trim(), content: '' });
-                    matched = true;
-                } else if (/^(aufgaben|naechste schritte|nächste schritte|action items|tasks)/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'aufgaben';
-                    matched = true;
-                } else if (/^(offene punkte|open items)/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'offen';
-                    matched = true;
-                } else if (/^(risiken|hindernisse|probleme|blocker)/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'risiken';
-                    matched = true;
-                } else if (/^(stimmung|feedback|ideen|team)/i.test(lower.replace(/[:\-*#]/g, '').trim())) {
-                    flushBuffer(result, current, currentTopIdx, buffer);
-                    buffer = [];
-                    current = 'stimmung';
-                    matched = true;
-                }
-
-                if (!matched) {
-                    buffer.push(line);
-                }
-            }
-            flushBuffer(result, current, currentTopIdx, buffer);
-
-            return result;
-        }
-
-        function flushBuffer(result, current, topIdx, buffer) {
-            var text = buffer.join('\n').trim();
-            if (!text) return;
-
-            if (current === 'top' && topIdx >= 0) {
-                result.tops[topIdx].content = text;
-            } else if (current === 'teilnehmer') {
-                result.teilnehmer += (result.teilnehmer ? '\n' : '') + text;
-            } else if (current === 'agenda') {
-                result.agenda += (result.agenda ? '\n' : '') + text;
-            } else if (current === 'aufgaben') {
-                result.aufgaben += (result.aufgaben ? '\n' : '') + text;
-            } else if (current === 'offen') {
-                result.offen += (result.offen ? '\n' : '') + text;
-            } else if (current === 'risiken') {
-                result.risiken += (result.risiken ? '\n' : '') + text;
-            } else if (current === 'stimmung') {
-                result.stimmung += (result.stimmung ? '\n' : '') + text;
-            } else {
-                result.fallback += (result.fallback ? '\n' : '') + text;
-            }
-        }
-
-        function parseLines(text) {
-            return text.split('\n').map(function(l) {
-                return l.replace(/^[\-\*\d\.•]+\s*/, '').trim();
-            }).filter(function(l) { return l.length > 0; });
-        }
-
-        function fillTeilnehmer(text) {
-            var names = parseLines(text);
-            var tbody = document.querySelector('#teilnehmer-table tbody');
-            for (var i = 0; i < names.length; i++) {
-                if (i >= tbody.rows.length) addTeilnehmer();
-                tbody.rows[i].cells[1].innerText = names[i];
-                tbody.rows[i].cells[3].innerText = 'Ja';
-            }
-        }
-
-        function fillAgenda(text) {
-            var items = parseLines(text);
-            var tbody = document.querySelector('#agenda-table tbody');
-            for (var i = 0; i < items.length; i++) {
-                if (i >= tbody.rows.length) addAgenda();
-                tbody.rows[i].cells[1].innerText = items[i];
-            }
-        }
-
-        function fillTOPs(tops) {
-            var container = document.getElementById('tops-container');
-            for (var i = 0; i < tops.length; i++) {
-                while (container.children.length <= i) {
-                    addTOP();
-                }
+            while (container.children.length < data.tops.length) addTOP();
+            for (var i = 0; i < data.tops.length; i++) {
                 var box = container.children[i];
-                box.querySelector('h3').innerText = tops[i].title;
+                box.querySelector('h3').innerText = data.tops[i].title || '';
                 var fields = box.querySelectorAll('.field-content');
-                if (fields.length > 0) fields[0].innerText = tops[i].content;
+                if (fields[0]) fields[0].innerText = data.tops[i].besprochenes || '';
+                if (fields[1]) fields[1].innerText = data.tops[i].ergebnis || '';
             }
         }
 
-        function fillAufgaben(text) {
-            var items = parseLines(text);
+        // Aufgaben
+        if (data.aufgaben && data.aufgaben.length > 0) {
             var tbody = document.querySelector('#aufgaben-table tbody');
-            for (var i = 0; i < items.length; i++) {
-                if (i >= tbody.rows.length) addAufgabe();
-                var parts = items[i].split(/\s*[–\-:]\s*/);
-                tbody.rows[i].cells[1].innerText = parts[0] || '';
-                if (parts.length > 1) tbody.rows[i].cells[2].innerText = parts[1];
-                if (parts.length > 2) tbody.rows[i].cells[3].innerText = parts[2];
-                tbody.rows[i].cells[5].innerText = 'Offen';
+            while (tbody.rows.length < data.aufgaben.length) addAufgabe();
+            for (var i = 0; i < data.aufgaben.length; i++) {
+                tbody.rows[i].cells[1].innerText = data.aufgaben[i].aufgabe || '';
+                tbody.rows[i].cells[2].innerText = data.aufgaben[i].wer || '';
+                tbody.rows[i].cells[3].innerText = data.aufgaben[i].bis || '';
+                tbody.rows[i].cells[4].innerText = data.aufgaben[i].prio || '';
+                tbody.rows[i].cells[5].innerText = data.aufgaben[i].status || '';
             }
         }
 
-        function fillOffen(text) {
-            var items = parseLines(text);
+        // Offene Punkte
+        if (data.offen && data.offen.length > 0) {
             var tbody = document.querySelector('#offen-table tbody');
-            for (var i = 0; i < items.length; i++) {
-                if (i >= tbody.rows.length) addOffen();
-                tbody.rows[i].cells[1].innerText = items[i];
-                tbody.rows[i].cells[4].innerText = 'Offen';
+            while (tbody.rows.length < data.offen.length) addOffen();
+            for (var i = 0; i < data.offen.length; i++) {
+                tbody.rows[i].cells[1].innerText = data.offen[i].thema || '';
+                tbody.rows[i].cells[2].innerText = data.offen[i].wer || '';
+                tbody.rows[i].cells[3].innerText = data.offen[i].faellig || '';
+                tbody.rows[i].cells[4].innerText = data.offen[i].status || '';
             }
         }
 
-        function fillFreetext(type, text) {
-            var boxes = document.querySelectorAll('.notes-box');
-            for (var i = 0; i < boxes.length; i++) {
-                var h2prev = boxes[i].previousElementSibling;
-                if (!h2prev) continue;
-                var h2text = h2prev.textContent.toLowerCase();
-                if (type === 'risiken' && h2text.indexOf('risiken') >= 0) {
-                    var field = boxes[i].querySelector('.field-content');
-                    if (field) field.innerText = text;
-                    return;
+        // Freitext
+        document.getElementById('risiken-content').innerText = data.risiken || '';
+        document.getElementById('stimmung-content').innerText = data.stimmung || '';
+
+        // Naechstes Meeting
+        document.getElementById('next-datum').innerText = data.nextDatum || '';
+        document.getElementById('next-uhrzeit').innerText = data.nextUhrzeit || '';
+        document.getElementById('next-ort').innerText = data.nextOrt || '';
+        document.getElementById('next-vorbereitung').innerText = data.nextVorbereitung || '';
+    }
+
+    // =============================================
+    // 2. NEUES PROTOKOLL (Datum + Nr. auto)
+    // =============================================
+
+    function neuesProtokoll() {
+        if (!confirm('Neues Protokoll starten? Das aktuelle Protokoll wird vorher gespeichert.')) return;
+
+        // Altes Protokoll archivieren
+        speichern();
+
+        // Alte offene Aufgaben merken
+        var oldData = collectData();
+        var carryOver = [];
+
+        // Nicht erledigte Aufgaben sammeln
+        if (oldData.aufgaben) {
+            for (var i = 0; i < oldData.aufgaben.length; i++) {
+                var a = oldData.aufgaben[i];
+                if (a.aufgabe && a.status.toLowerCase() !== 'erledigt') {
+                    carryOver.push(a);
                 }
-                if (type === 'stimmung' && (h2text.indexOf('ideen') >= 0 || h2text.indexOf('stimmung') >= 0)) {
-                    var field = boxes[i].querySelector('.field-content');
-                    if (field) field.innerText = text;
-                    return;
+            }
+        }
+        // Nicht erledigte offene Punkte
+        if (oldData.offen) {
+            for (var i = 0; i < oldData.offen.length; i++) {
+                var o = oldData.offen[i];
+                if (o.thema && o.status.toLowerCase() !== 'erledigt') {
+                    carryOver.push({ aufgabe: o.thema, wer: o.wer, bis: o.faellig, prio: '', status: o.status });
                 }
             }
         }
 
-        function fillFallback(text) {
-            if (!text.trim()) return;
-            var container = document.getElementById('tops-container');
-            if (container.children.length > 0) {
-                var firstTop = container.children[0];
-                var field = firstTop.querySelector('.field-content');
-                if (field && !field.innerText.trim()) {
-                    field.innerText = text;
-                }
-            }
+        localStorage.setItem('wbs_carry_over', JSON.stringify(carryOver));
+
+        // Protokoll-Nr. hochzaehlen
+        var lastNr = parseInt(oldData.nr) || 0;
+        var newNr = lastNr + 1;
+
+        // Seite neu laden
+        localStorage.removeItem(SAVE_KEY);
+        location.reload();
+
+        // Nach Reload: wird in init() behandelt
+        localStorage.setItem('wbs_new_nr', String(newNr));
+        localStorage.setItem('wbs_old_ort', oldData.ort || '');
+        localStorage.setItem('wbs_old_uhrzeit', oldData.uhrzeit || '');
+    }
+
+    // =============================================
+    // 3. TEAM-STAMMDATEN
+    // =============================================
+
+    function teamStammdatenSpeichern() {
+        var team = [];
+        var rows = document.querySelectorAll('#teilnehmer-table tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            var name = rows[i].cells[1].innerText.trim();
+            var rolle = rows[i].cells[2].innerText.trim();
+            if (name) team.push({ name: name, rolle: rolle });
         }
+        localStorage.setItem('wbs_team_stamm', JSON.stringify(team));
+        toast('Team-Stammdaten gespeichert (' + team.length + ' Mitglieder)');
+    }
+
+    function teamStammdatenLaden() {
+        var raw = localStorage.getItem('wbs_team_stamm');
+        if (!raw) { toast('Keine Team-Stammdaten gespeichert'); return; }
+        var team = JSON.parse(raw);
+        var tbody = document.querySelector('#teilnehmer-table tbody');
+        while (tbody.rows.length < team.length) addTeilnehmer();
+        for (var i = 0; i < team.length; i++) {
+            tbody.rows[i].cells[1].innerText = team[i].name;
+            tbody.rows[i].cells[2].innerText = team[i].rolle;
+            tbody.rows[i].cells[3].innerText = '';
+        }
+        toast('Team geladen (' + team.length + ' Mitglieder)');
+    }
+
+    // =============================================
+    // 4. OFFENE PUNKTE UEBERNEHMEN
+    // =============================================
+
+    function offenePunkteUebernehmen() {
+        var raw = localStorage.getItem('wbs_carry_over');
+        if (!raw) { toast('Keine offenen Punkte aus dem letzten Protokoll vorhanden'); return; }
+        var items = JSON.parse(raw);
+        if (items.length === 0) { toast('Alle Aufgaben waren erledigt'); return; }
+
+        var tbody = document.querySelector('#offen-table tbody');
+        for (var i = 0; i < items.length; i++) {
+            // Pruefen ob schon vorhanden
+            var exists = false;
+            for (var j = 0; j < tbody.rows.length; j++) {
+                if (tbody.rows[j].cells[1].innerText.trim() === items[i].aufgabe) { exists = true; break; }
+            }
+            if (exists) continue;
+
+            // Leere Zeile suchen oder neue anlegen
+            var targetRow = null;
+            for (var j = 0; j < tbody.rows.length; j++) {
+                if (!tbody.rows[j].cells[1].innerText.trim()) { targetRow = tbody.rows[j]; break; }
+            }
+            if (!targetRow) {
+                addOffen();
+                targetRow = tbody.rows[tbody.rows.length - 1];
+            }
+            targetRow.cells[1].innerText = items[i].aufgabe || '';
+            targetRow.cells[2].innerText = items[i].wer || '';
+            targetRow.cells[3].innerText = items[i].bis || '';
+            targetRow.cells[4].innerText = items[i].status || 'Offen';
+        }
+        toast(items.length + ' offene Punkte uebernommen');
+    }
+
+    // =============================================
+    // 5. PDF EXPORT
+    // =============================================
+
+    function pdfExport() {
+        toast('Druckvorschau wird geoeffnet...');
+        setTimeout(function() { window.print(); }, 300);
+    }
+
+    // =============================================
+    // ZEILEN HINZUFUEGEN
+    // =============================================
+
+    function addTeilnehmer() {
+        var tbody = document.querySelector('#teilnehmer-table tbody');
+        var nr = tbody.rows.length + 1;
+        var row = tbody.insertRow();
+        row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+    }
+
+    function addAgenda() {
+        var tbody = document.querySelector('#agenda-table tbody');
+        var nr = tbody.rows.length + 1;
+        var row = tbody.insertRow();
+        row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td>';
+    }
+
+    var topCounter = 3;
+
+    function addTOP() {
+        topCounter++;
+        var container = document.getElementById('tops-container');
+        var div = document.createElement('div');
+        div.className = 'notes-box';
+        div.setAttribute('data-top', topCounter);
+        div.innerHTML =
+            '<h3 contenteditable="true">TOP ' + topCounter + ':</h3>' +
+            '<div class="field-label">Besprochenes:</div>' +
+            '<div class="field-content" contenteditable="true" data-field="besprochenes"></div>' +
+            '<div class="field-label">Ergebnis / Entscheidung:</div>' +
+            '<div class="field-content" contenteditable="true" data-field="ergebnis"></div>';
+        container.appendChild(div);
+    }
+
+    function addAufgabe() {
+        var tbody = document.querySelector('#aufgaben-table tbody');
+        var nr = tbody.rows.length + 1;
+        var row = tbody.insertRow();
+        row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+    }
+
+    function addOffen() {
+        var tbody = document.querySelector('#offen-table tbody');
+        var nr = tbody.rows.length + 1;
+        var row = tbody.insertRow();
+        row.innerHTML = '<td>' + nr + '</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td>';
+    }
+
+    // =============================================
+    // COPILOT-PARSER
+    // =============================================
+
+    function parseCopilot() {
+        var text = document.getElementById('copilot-input').value.trim();
+        if (!text) { alert('Bitte zuerst die Copilot-Zusammenfassung einfuegen.'); return; }
+
+        var sections = splitSections(text);
+
+        if (sections.teilnehmer) fillTeilnehmer(sections.teilnehmer);
+        if (sections.agenda) fillAgenda(sections.agenda);
+        if (sections.tops && sections.tops.length > 0) fillTOPs(sections.tops);
+        if (sections.aufgaben) fillAufgaben(sections.aufgaben);
+        if (sections.offen) fillOffenFromCopilot(sections.offen);
+        if (sections.risiken) { document.getElementById('risiken-content').innerText = sections.risiken; }
+        if (sections.stimmung) { document.getElementById('stimmung-content').innerText = sections.stimmung; }
+        if (sections.fallback) fillFallback(sections.fallback);
+
+        toast('Copilot-Zusammenfassung verteilt');
+    }
+
+    function splitSections(text) {
+        var result = { teilnehmer:'', agenda:'', tops:[], aufgaben:'', offen:'', risiken:'', stimmung:'', fallback:'' };
+        var lines = text.split('\n');
+        var current = 'fallback';
+        var currentTopIdx = -1;
+        var buffer = [];
+
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var clean = line.toLowerCase().replace(/[:\-*#]/g, '').trim();
+            var matched = false;
+
+            if (/^teilnehmer/.test(clean)) {
+                flush(); current = 'teilnehmer'; matched = true;
+            } else if (/^(agenda|tagesordnung)/.test(clean)) {
+                flush(); current = 'agenda'; matched = true;
+            } else if (/^top\s*\d+/.test(clean)) {
+                flush(); current = 'top'; currentTopIdx = result.tops.length;
+                result.tops.push({ title: line.trim(), content: '' }); matched = true;
+            } else if (/^(aufgaben|naechste schritte|nächste schritte|action items|tasks)/.test(clean)) {
+                flush(); current = 'aufgaben'; matched = true;
+            } else if (/^(offene punkte|open items)/.test(clean)) {
+                flush(); current = 'offen'; matched = true;
+            } else if (/^(risiken|hindernisse|probleme|blocker)/.test(clean)) {
+                flush(); current = 'risiken'; matched = true;
+            } else if (/^(stimmung|feedback|ideen)/.test(clean)) {
+                flush(); current = 'stimmung'; matched = true;
+            }
+
+            if (!matched) buffer.push(line);
+        }
+        flush();
+        return result;
+
+        function flush() {
+            var t = buffer.join('\n').trim();
+            buffer = [];
+            if (!t) return;
+            if (current === 'top' && currentTopIdx >= 0) result.tops[currentTopIdx].content = t;
+            else if (result.hasOwnProperty(current)) result[current] += (result[current] ? '\n' : '') + t;
+        }
+    }
+
+    function parseLines(text) {
+        return text.split('\n').map(function(l) {
+            return l.replace(/^[\-\*\d\.•]+\s*/, '').trim();
+        }).filter(function(l) { return l.length > 0; });
+    }
+
+    function fillTeilnehmer(text) {
+        var names = parseLines(text);
+        var tbody = document.querySelector('#teilnehmer-table tbody');
+        for (var i = 0; i < names.length; i++) {
+            if (i >= tbody.rows.length) addTeilnehmer();
+            tbody.rows[i].cells[1].innerText = names[i];
+            tbody.rows[i].cells[3].innerText = 'Ja';
+        }
+    }
+
+    function fillAgenda(text) {
+        var items = parseLines(text);
+        var tbody = document.querySelector('#agenda-table tbody');
+        for (var i = 0; i < items.length; i++) {
+            if (i >= tbody.rows.length) addAgenda();
+            tbody.rows[i].cells[1].innerText = items[i];
+        }
+    }
+
+    function fillTOPs(tops) {
+        var container = document.getElementById('tops-container');
+        for (var i = 0; i < tops.length; i++) {
+            while (container.children.length <= i) addTOP();
+            var box = container.children[i];
+            box.querySelector('h3').innerText = tops[i].title;
+            var fields = box.querySelectorAll('.field-content');
+            if (fields[0]) fields[0].innerText = tops[i].content;
+        }
+    }
+
+    function fillAufgaben(text) {
+        var items = parseLines(text);
+        var tbody = document.querySelector('#aufgaben-table tbody');
+        for (var i = 0; i < items.length; i++) {
+            if (i >= tbody.rows.length) addAufgabe();
+            var parts = items[i].split(/\s*[–\-:]\s*/);
+            tbody.rows[i].cells[1].innerText = parts[0] || '';
+            if (parts.length > 1) tbody.rows[i].cells[2].innerText = parts[1];
+            if (parts.length > 2) tbody.rows[i].cells[3].innerText = parts[2];
+            tbody.rows[i].cells[5].innerText = 'Offen';
+        }
+    }
+
+    function fillOffenFromCopilot(text) {
+        var items = parseLines(text);
+        var tbody = document.querySelector('#offen-table tbody');
+        for (var i = 0; i < items.length; i++) {
+            if (i >= tbody.rows.length) addOffen();
+            tbody.rows[i].cells[1].innerText = items[i];
+            tbody.rows[i].cells[4].innerText = 'Offen';
+        }
+    }
+
+    function fillFallback(text) {
+        if (!text.trim()) return;
+        var container = document.getElementById('tops-container');
+        if (container.children.length > 0) {
+            var field = container.children[0].querySelector('.field-content');
+            if (field && !field.innerText.trim()) field.innerText = text;
+        }
+    }
+
+    // =============================================
+    // INIT
+    // =============================================
+
+    function init() {
+        var today = new Date();
+
+        // Neues Protokoll nach Reload?
+        var newNr = localStorage.getItem('wbs_new_nr');
+        if (newNr) {
+            document.getElementById('meta-datum').innerText = formatDate(today);
+            document.getElementById('meta-nr').innerText = newNr;
+            document.getElementById('meta-ort').innerText = localStorage.getItem('wbs_old_ort') || '';
+            document.getElementById('meta-uhrzeit').innerText = localStorage.getItem('wbs_old_uhrzeit') || '';
+
+            var nextDate = addDays(today, 14);
+            document.getElementById('next-datum').innerText = formatDate(nextDate);
+            document.getElementById('next-uhrzeit').innerText = localStorage.getItem('wbs_old_uhrzeit') || '';
+            document.getElementById('next-ort').innerText = localStorage.getItem('wbs_old_ort') || '';
+
+            localStorage.removeItem('wbs_new_nr');
+            localStorage.removeItem('wbs_old_ort');
+            localStorage.removeItem('wbs_old_uhrzeit');
+
+            // Team automatisch laden
+            teamStammdatenLaden();
+
+            toast('Neues Protokoll Nr. ' + newNr + ' gestartet');
+            return;
+        }
+
+        // Gespeichertes Protokoll laden?
+        var saved = localStorage.getItem(SAVE_KEY);
+        if (saved) {
+            var data = JSON.parse(saved);
+            restoreData(data);
+            toast('Letztes Protokoll wiederhergestellt');
+        } else {
+            // Erstes Mal: Datum und Nr. setzen
+            document.getElementById('meta-datum').innerText = formatDate(today);
+            document.getElementById('meta-nr').innerText = '1';
+            var nextDate = addDays(today, 14);
+            document.getElementById('next-datum').innerText = formatDate(nextDate);
+        }
+    }
+
+    // Auto-Save alle 10 Sekunden
+    document.addEventListener('input', function() {
+        clearTimeout(autoSaveTimer);
+        autoSaveTimer = setTimeout(autoSave, 10000);
+    });
+
+    // Beim Verlassen speichern
+    window.addEventListener('beforeunload', function() {
+        autoSave();
+    });
+
+    // Start
+    init();
     </script>
 
 </body>
