@@ -33,27 +33,29 @@
             margin-bottom: 20px;
         }
 
-        .meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 30px;
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
             margin-bottom: 25px;
             font-size: 10pt;
-            color: #555;
         }
 
-        .meta span {
-            white-space: nowrap;
+        .meta-table td {
+            border: 1px solid #ccc;
+            padding: 6px 10px;
         }
 
-        .meta strong {
-            color: #333;
+        .meta-table .label {
+            background-color: #e8f5e9;
+            font-weight: 600;
+            color: #2e7d32;
+            width: 160px;
         }
 
         h2 {
             font-size: 13pt;
             color: #2e7d32;
-            margin-top: 25px;
+            margin-top: 28px;
             margin-bottom: 10px;
             padding-bottom: 3px;
             border-bottom: 2px solid #a5d6a7;
@@ -98,10 +100,46 @@
             margin-bottom: 6px;
         }
 
+        .field-label {
+            font-weight: 600;
+            font-style: italic;
+            color: #555;
+            margin-top: 8px;
+            margin-bottom: 4px;
+            font-size: 10pt;
+        }
+
+        .field-content {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 45px;
+            padding: 6px 8px;
+            margin-bottom: 8px;
+            background-color: #fff;
+        }
+
         .hint {
             font-size: 9pt;
             color: #999;
             font-style: italic;
+        }
+
+        .status-hint {
+            font-size: 9pt;
+            color: #888;
+            font-style: italic;
+            margin-top: 4px;
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            padding: 10px 15px;
+            background-color: #f1f8e9;
+            border-left: 4px solid #2e7d32;
+            font-size: 9pt;
+            color: #555;
+            font-style: italic;
+            border-radius: 0 6px 6px 0;
         }
 
         @media print {
@@ -112,98 +150,178 @@
             .notes-box {
                 page-break-inside: avoid;
             }
+
+            tr {
+                page-break-inside: avoid;
+            }
         }
     </style>
 </head>
 <body>
 
     <h1>Team-Meeting Nachhaltigkeit</h1>
-    <div class="subtitle">Zweiwoechentliches Teammeeting</div>
+    <div class="subtitle">Zweiwoechentliches Teammeeting -- Protokoll</div>
 
-    <div class="meta">
-        <span><strong>Datum:</strong> _______________</span>
-        <span><strong>Uhrzeit:</strong> _______ - _______ Uhr</span>
-        <span><strong>Ort:</strong> _______________</span>
-        <span><strong>Protokoll:</strong> _______________</span>
-    </div>
+    <table class="meta-table">
+        <tr>
+            <td class="label">Datum:</td>
+            <td></td>
+            <td class="label">Protokoll-Nr.:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="label">Uhrzeit:</td>
+            <td>_______ - _______ Uhr</td>
+            <td class="label">Protokollant/in:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="label">Ort / Medium:</td>
+            <td></td>
+            <td class="label">Verteiler:</td>
+            <td></td>
+        </tr>
+    </table>
 
     <h2>Teilnehmer</h2>
     <table>
         <tr>
             <th style="width:40px">Nr.</th>
             <th>Name</th>
+            <th>Rolle / Aufgabenbereich</th>
             <th style="width:80px">Anwesend</th>
         </tr>
-        <tr><td>1</td><td></td><td></td></tr>
+        <tr><td>1</td><td></td><td></td><td></td></tr>
+        <tr><td>2</td><td></td><td></td><td></td></tr>
+        <tr><td>3</td><td></td><td></td><td></td></tr>
+        <tr><td>4</td><td></td><td></td><td></td></tr>
+        <tr><td>5</td><td></td><td></td><td></td></tr>
+        <tr><td>6</td><td></td><td></td><td></td></tr>
+        <tr><td>7</td><td></td><td></td><td></td></tr>
+        <tr><td>8</td><td></td><td></td><td></td></tr>
+    </table>
+
+    <h2>Agenda</h2>
+    <table>
+        <tr>
+            <th style="width:50px">TOP</th>
+            <th>Thema</th>
+            <th style="width:130px">Verantwortlich</th>
+        </tr>
+        <tr><td>1</td><td>Rueckblick &amp; Status offene Aufgaben</td><td></td></tr>
         <tr><td>2</td><td></td><td></td></tr>
         <tr><td>3</td><td></td><td></td></tr>
         <tr><td>4</td><td></td><td></td></tr>
-        <tr><td>5</td><td></td><td></td></tr>
-        <tr><td>6</td><td></td><td></td></tr>
+        <tr><td>5</td><td>Verschiedenes</td><td></td></tr>
     </table>
 
-    <h2>Rueckblick</h2>
-    <div class="notes-box">
-        <h3>Was ist seit dem letzten Meeting passiert?</h3>
-        <p class="hint">Kurze Updates aus dem Team, erledigte Aufgaben, Fortschritte</p>
-        <br><br><br>
-    </div>
-
-    <h2>Themen heute</h2>
+    <h2>Besprechungsinhalte</h2>
 
     <div class="notes-box">
-        <h3>1.</h3>
-        <br><br>
+        <h3>TOP 1: Rueckblick &amp; Status offene Aufgaben</h3>
+        <p class="hint">Updates seit dem letzten Meeting, erledigte Aufgaben, Fortschritte</p>
+        <div class="field-label">Besprochenes:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Entscheidung:</div>
+        <div class="field-content"></div>
     </div>
 
     <div class="notes-box">
-        <h3>2.</h3>
-        <br><br>
+        <h3>TOP 2:</h3>
+        <div class="field-label">Besprochenes:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Entscheidung:</div>
+        <div class="field-content"></div>
     </div>
 
     <div class="notes-box">
-        <h3>3.</h3>
-        <br><br>
+        <h3>TOP 3:</h3>
+        <div class="field-label">Besprochenes:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Entscheidung:</div>
+        <div class="field-content"></div>
     </div>
 
     <div class="notes-box">
-        <h3>4.</h3>
-        <br><br>
+        <h3>TOP 4:</h3>
+        <div class="field-label">Besprochenes:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Entscheidung:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="notes-box">
+        <h3>TOP 5: Verschiedenes</h3>
+        <div class="field-label">Besprochenes:</div>
+        <div class="field-content"></div>
     </div>
 
     <h2>Aufgaben &amp; naechste Schritte</h2>
     <table>
         <tr>
-            <th>Was?</th>
-            <th style="width:130px">Wer?</th>
-            <th style="width:100px">Bis wann?</th>
-            <th style="width:80px">Erledigt?</th>
+            <th style="width:45px">Nr.</th>
+            <th>Aufgabe</th>
+            <th style="width:120px">Wer?</th>
+            <th style="width:90px">Bis wann?</th>
+            <th style="width:75px">Prioritaet</th>
+            <th style="width:80px">Status</th>
         </tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
-        <tr><td></td><td></td><td></td><td></td></tr>
+        <tr><td>1</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>2</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>3</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>4</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>5</td><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td>6</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </table>
+    <div class="status-hint">Prioritaet: Hoch | Mittel | Niedrig &nbsp;&nbsp;&nbsp; Status: Offen | In Arbeit | Erledigt</div>
+
+    <h2>Offene Punkte aus vorherigen Meetings</h2>
+    <table>
+        <tr>
+            <th style="width:45px">Nr.</th>
+            <th>Thema</th>
+            <th style="width:120px">Wer?</th>
+            <th style="width:90px">Faellig</th>
+            <th style="width:80px">Status</th>
+        </tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        <tr><td></td><td></td><td></td><td></td><td></td></tr>
     </table>
 
-    <h2>Offene Punkte / Parkplatz</h2>
+    <h2>Risiken &amp; Hindernisse</h2>
     <div class="notes-box">
-        <p class="hint">Themen, die noch nicht geloest sind oder spaeter besprochen werden sollen</p>
+        <p class="hint">Gibt es Probleme, Verzoegerungen oder Risiken, die das Team betreffen?</p>
         <br><br><br>
     </div>
 
-    <h2>Sonstiges &amp; Stimmung im Team</h2>
+    <h2>Ideen &amp; Stimmung im Team</h2>
     <div class="notes-box">
-        <p class="hint">Feedback, Ideen, Wuensche, Teamstimmung</p>
+        <p class="hint">Feedback, Verbesserungsvorschlaege, Teamstimmung</p>
         <br><br><br>
     </div>
 
     <h2>Naechstes Meeting</h2>
-    <div class="meta">
-        <span><strong>Datum:</strong> _______________</span>
-        <span><strong>Uhrzeit:</strong> _______________</span>
-        <span><strong>Ort:</strong> _______________</span>
+    <table class="meta-table">
+        <tr>
+            <td class="label">Datum:</td>
+            <td></td>
+            <td class="label">Uhrzeit:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="label">Ort / Medium:</td>
+            <td colspan="3"></td>
+        </tr>
+        <tr>
+            <td class="label">Vorbereitung:</td>
+            <td colspan="3" style="min-height:35px"></td>
+        </tr>
+    </table>
+
+    <div class="footer-note">
+        Bitte das Protokoll innerhalb von 3 Werktagen auf Richtigkeit pruefen.
+        Aenderungswuensche an den/die Protokollant/in. Ohne Rueckmeldung gilt es als abgestimmt.
     </div>
 
 </body>
