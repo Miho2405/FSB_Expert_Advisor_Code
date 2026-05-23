@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Besprechungsprotokoll</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11pt;
+            color: #222;
+            line-height: 1.5;
+            padding: 30px 40px;
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18pt;
+            margin-bottom: 5px;
+            color: #1a3c6e;
+            border-bottom: 3px solid #1a3c6e;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            font-size: 13pt;
+            color: #1a3c6e;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #1a3c6e;
+            padding-bottom: 4px;
+        }
+
+        h3 {
+            font-size: 11pt;
+            color: #333;
+            margin-top: 15px;
+            margin-bottom: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 10pt;
+        }
+
+        th, td {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #1a3c6e;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f5fa;
+        }
+
+        .header-table td {
+            border: 1px solid #999;
+            padding: 6px 10px;
+        }
+
+        .header-table .label {
+            background-color: #e8edf5;
+            font-weight: bold;
+            width: 200px;
+        }
+
+        .header-table .value {
+            min-width: 250px;
+        }
+
+        .top-block {
+            background-color: #fafbfd;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+        }
+
+        .top-title {
+            font-weight: bold;
+            font-size: 11pt;
+            color: #1a3c6e;
+            margin-bottom: 8px;
+        }
+
+        .field-label {
+            font-weight: bold;
+            font-style: italic;
+            color: #555;
+            margin-top: 8px;
+            margin-bottom: 4px;
+        }
+
+        .field-content {
+            border: 1px solid #ccc;
+            min-height: 50px;
+            padding: 6px 8px;
+            margin-bottom: 8px;
+            background-color: #fff;
+        }
+
+        .status-legend {
+            font-size: 9pt;
+            color: #666;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .approval-row td {
+            height: 50px;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #1a3c6e;
+            font-size: 9pt;
+            color: #555;
+            font-style: italic;
+        }
+
+        .page-break {
+            page-break-before: always;
+        }
+
+        @media print {
+            body {
+                padding: 15px 20px;
+                font-size: 10pt;
+            }
+
+            h1 {
+                font-size: 16pt;
+            }
+
+            .top-block {
+                page-break-inside: avoid;
+            }
+
+            table {
+                page-break-inside: auto;
+            }
+
+            tr {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Besprechungsprotokoll</h1>
+
+    <table class="header-table">
+        <tr>
+            <td class="label">Projekt:</td>
+            <td class="value"></td>
+            <td class="label">Protokoll-Nr.:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Besprechungsthema:</td>
+            <td class="value" colspan="3"></td>
+        </tr>
+        <tr>
+            <td class="label">Datum:</td>
+            <td class="value"></td>
+            <td class="label">Uhrzeit:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Ort / Medium:</td>
+            <td class="value"></td>
+            <td class="label">Protokollant/in:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Verteiler:</td>
+            <td class="value" colspan="3"></td>
+        </tr>
+    </table>
+
+    <h2>1. Teilnehmerliste</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:40px">Nr.</th>
+                <th>Name</th>
+                <th>Funktion / Rolle</th>
+                <th>Unternehmen / Abteilung</th>
+                <th style="width:80px">Anwesend</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>2</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>4</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>5</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>6</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>7</td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>8</td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <h2>2. Agenda / Tagesordnung</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:50px">TOP</th>
+                <th>Thema</th>
+                <th style="width:150px">Verantwortlich</th>
+                <th style="width:100px">Zeitrahmen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>Begruessung und Genehmigung des letzten Protokolls</td><td></td><td></td></tr>
+            <tr><td>2</td><td></td><td></td><td></td></tr>
+            <tr><td>3</td><td></td><td></td><td></td></tr>
+            <tr><td>4</td><td></td><td></td><td></td></tr>
+            <tr><td>5</td><td></td><td></td><td></td></tr>
+            <tr><td>6</td><td>Verschiedenes / Sonstiges</td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <h2>3. Besprechungsinhalte</h2>
+
+    <div class="top-block">
+        <div class="top-title">TOP 1: Begruessung und Genehmigung des letzten Protokolls</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="top-block">
+        <div class="top-title">TOP 2:</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="top-block">
+        <div class="top-title">TOP 3:</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="top-block">
+        <div class="top-title">TOP 4:</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="top-block">
+        <div class="top-title">TOP 5:</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <div class="top-block">
+        <div class="top-title">TOP 6: Verschiedenes / Sonstiges</div>
+        <div class="field-label">Sachstand / Diskussion:</div>
+        <div class="field-content"></div>
+        <div class="field-label">Ergebnis / Beschluss:</div>
+        <div class="field-content"></div>
+    </div>
+
+    <h2>4. Massnahmenliste / Aufgaben</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:55px">Nr.</th>
+                <th>Massnahme / Aufgabe</th>
+                <th style="width:120px">Verantwortlich</th>
+                <th style="width:90px">Termin</th>
+                <th style="width:75px">Prioritaet</th>
+                <th style="width:90px">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>M-001</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>M-002</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>M-003</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>M-004</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>M-005</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td>M-006</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+    <div class="status-legend">Prioritaet: Hoch | Mittel | Niedrig &nbsp;&nbsp;&nbsp; Status: Offen | In Bearbeitung | Erledigt | Zurueckgestellt</div>
+
+    <h2>5. Offene Punkte aus vorherigen Besprechungen</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:40px">Nr.</th>
+                <th>Thema</th>
+                <th style="width:120px">Verantwortlich</th>
+                <th style="width:100px">Ursprungsdatum</th>
+                <th style="width:90px">Faellig</th>
+                <th style="width:90px">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <h2>6. Risiken und Eskalationen</h2>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:40px">Nr.</th>
+                <th>Risiko / Problem</th>
+                <th style="width:120px">Auswirkung</th>
+                <th style="width:120px">Eskalation an</th>
+                <th>Massnahme</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <h2>7. Naechste Besprechung</h2>
+    <table class="header-table">
+        <tr>
+            <td class="label">Datum:</td>
+            <td class="value"></td>
+            <td class="label">Uhrzeit:</td>
+            <td class="value"></td>
+        </tr>
+        <tr>
+            <td class="label">Ort / Medium:</td>
+            <td class="value" colspan="3"></td>
+        </tr>
+        <tr>
+            <td class="label">Vorbereitungen:</td>
+            <td class="value" colspan="3" style="min-height:40px"></td>
+        </tr>
+    </table>
+
+    <h2>8. Genehmigung</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Rolle</th>
+                <th>Name</th>
+                <th style="width:100px">Datum</th>
+                <th style="width:180px">Unterschrift / Freigabe</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="approval-row"><td>Protokollant/in</td><td></td><td></td><td></td></tr>
+            <tr class="approval-row"><td>Projektleiter/in</td><td></td><td></td><td></td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer-note">
+        Dieses Protokoll ist innerhalb von ___ Werktagen nach Erhalt auf Richtigkeit zu pruefen.
+        Einwaende sind schriftlich an den/die Protokollant/in zu richten.
+        Ohne Einspruch gilt das Protokoll als genehmigt.
+    </div>
+
+</body>
+</html>
