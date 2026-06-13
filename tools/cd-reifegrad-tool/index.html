@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CD-Reifegrad &amp; Audit-Tool</title>
+<style>
+  :root {
+    --blue: #0a3d91;
+    --blue-light: #e8eef9;
+    --blue-dark: #062868;
+    --accent: #ffb400;
+    --green: #1f8a4c;
+    --red: #c0392b;
+    --orange: #e67e22;
+    --gray-50: #f7f8fa;
+    --gray-100: #eceef2;
+    --gray-300: #c9cdd4;
+    --gray-500: #7c8290;
+    --gray-700: #3b414c;
+    --gray-900: #1a1d23;
+    --radius: 10px;
+    --shadow: 0 4px 20px rgba(10, 61, 145, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    line-height: 1.5;
+  }
+  header {
+    background: white;
+    border-bottom: 1px solid var(--gray-100);
+    padding: 1rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+  }
+  .brand-mark {
+    width: 28px; height: 28px;
+    background: var(--blue);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+  }
+  .progress-wrap {
+    flex: 1;
+    max-width: 320px;
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--gray-100);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--blue);
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  .progress-text {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+  main {
+    max-width: 820px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  .card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    margin: 0 0 0.5rem;
+    color: var(--blue-dark);
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+  h2 {
+    margin: 0 0 1rem;
+    color: var(--blue-dark);
+    font-size: 1.3rem;
+  }
+  h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+  }
+  p { margin: 0 0 1rem; }
+  .lead {
+    color: var(--gray-700);
+    font-size: 1.05rem;
+  }
+  .muted {
+    color: var(--gray-500);
+    font-size: 0.9rem;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn:hover { background: var(--blue-dark); }
+  .btn:disabled {
+    background: var(--gray-300);
+    cursor: not-allowed;
+  }
+  .btn-secondary {
+    background: white;
+    color: var(--blue);
+    border: 1.5px solid var(--blue);
+  }
+  .btn-secondary:hover { background: var(--blue-light); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--gray-700);
+    border: none;
+    padding: 0.5rem 0.75rem;
+  }
+  .btn-ghost:hover { color: var(--blue); }
+  .btn-row {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  .mode-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .mode-card {
+    border: 2px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+  }
+  .mode-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-2px);
+  }
+  .mode-card.selected {
+    border-color: var(--blue);
+    background: var(--blue-light);
+  }
+  .mode-card .icon {
+    width: 40px; height: 40px;
+    background: var(--blue-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blue);
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
+  .mode-card.selected .icon {
+    background: var(--blue);
+    color: white;
+  }
+  .question {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .question:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+  .q-num {
+    display: inline-block;
+    background: var(--blue-light);
+    color: var(--blue-dark);
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+  .q-text {
+    font-weight: 500;
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .q-help {
+    color: var(--gray-500);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  .likert {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+  }
+  .likert-option {
+    background: white;
+    border: 1.5px solid var(--gray-100);
+    border-radius: var(--radius);
+    padding: 0.75rem 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-size: 0.85rem;
+    color: var(--gray-700);
+  }
+  .likert-option:hover {
+    border-color: var(--blue);
+    background: var(--blue-light);
+  }
+  .likert-option.selected {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+    font-weight: 500;
+  }
+  .likert-option .num {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .section-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--blue-light);
+  }
+  .section-header .kicker {
+    color: var(--blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .group-header {
+    margin: 1.5rem 0 1rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--blue);
+    color: var(--blue-dark);
+    font-weight: 600;
+  }
+  .group-header:first-child { margin-top: 0; }
+  .result-score {
+    text-align: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+    color: white;
+    border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+  }
+  .result-score .big-num {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0.5rem 0;
+  }
+  .result-score .label {
+    opacity: 0.85;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .result-score .level {
+    background: rgba(255,255,255,0.2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .score-grid .result-score .big-num { font-size: 2.5rem; }
+  .score-grid .result-score { padding: 1.25rem 1rem; }
+  .heterogen { background: linear-gradient(135deg, #e67e22 0%, #c0392b 100%); }
+  .recommendation {
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--blue);
+    background: var(--blue-light);
+    margin-bottom: 1.5rem;
+  }
+  .recommendation h3 {
+    color: var(--blue-dark);
+    margin-bottom: 0.5rem;
+  }
+  .rec-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: var(--blue);
+    color: white;
+    margin-bottom: 0.75rem;
+  }
+  .rec-tag.refresh { background: var(--green); }
+  .rec-tag.tech { background: var(--orange); }
+  .rec-tag.relaunch { background: var(--red); }
+  .dim-bar {
+    display: grid;
+    grid-template-columns: 200px 1fr 50px;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  .dim-bar .bar-track {
+    height: 12px;
+    background: var(--gray-100);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .dim-bar .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.5s ease;
+  }
+  .dim-bar .bar-value {
+    text-align: right;
+    font-weight: 600;
+    color: var(--gray-700);
+  }
+  .level-1 { background: var(--red); }
+  .level-2 { background: var(--orange); }
+  .level-3 { background: var(--accent); }
+  .level-4 { background: #7fc15c; }
+  .level-5 { background: var(--green); }
+  .actions-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .actions-list li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  .actions-list li:last-child { border-bottom: none; }
+  .actions-list .check {
+    color: var(--blue);
+    font-weight: bold;
+  }
+  .hidden { display: none !important; }
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.75rem;
+    background: var(--gray-50);
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    font-size: 0.9rem;
+  }
+  .checkbox-item:hover { border-color: var(--blue); }
+  .checkbox-item.checked {
+    background: var(--blue-light);
+    border-color: var(--blue);
+    font-weight: 500;
+  }
+  .checkbox-item input { margin: 0; }
+  .stat-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+  .stat {
+    flex: 1;
+    min-width: 140px;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+  }
+  .stat .label {
+    font-size: 0.8rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .stat .value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--blue-dark);
+    margin-top: 4px;
+  }
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--gray-500);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 600px) {
+    .likert {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.25rem;
+    }
+    .likert-option { padding: 0.5rem 0.25rem; font-size: 0.7rem; }
+    .likert-option .num { font-size: 0.95rem; }
+    .score-grid { grid-template-columns: 1fr; }
+    .dim-bar { grid-template-columns: 1fr; gap: 0.25rem; }
+    .dim-bar .bar-value { text-align: left; }
+    .card { padding: 1.25rem; }
+    h1 { font-size: 1.4rem; }
+  }
+  @media print {
+    header, .btn-row, .no-print { display: none !important; }
+    body { background: white; }
+    .card { box-shadow: none; border: 1px solid var(--gray-100); page-break-inside: avoid; }
+    main { margin: 0; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <span>CD-Reifegrad &amp; Audit-Tool</span>
+    </div>
+    <div class="progress-wrap" id="progressWrap" style="display:none;">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Schritt 1 von 1</div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- WELCOME -->
+  <section class="card" id="screen-welcome">
+    <h1>Wie reif und einheitlich ist Ihre Marke?</h1>
+    <p class="lead">
+      Dieses Tool gibt Ihnen in ca. <strong>10–15 Minuten</strong> eine fundierte Einschätzung
+      Ihres Corporate Designs — ohne Vorwissen, in einfacher Sprache.
+    </p>
+    <p>
+      Am Ende erhalten Sie:
+    </p>
+    <ul>
+      <li>Einen <strong>Reifegrad-Score</strong> (0–100) Ihrer Markenführung</li>
+      <li>Einen <strong>Heterogenitäts-Index</strong> Ihres aktuellen CDs</li>
+      <li>Eine klare Empfehlung: <strong>Refresh</strong>, <strong>technologische Anpassung</strong> oder <strong>Relaunch</strong></li>
+      <li>Konkrete nächste Schritte</li>
+    </ul>
+    <p class="muted">
+      Ihre Antworten werden ausschließlich lokal in Ihrem Browser gespeichert
+      und nicht an Server übertragen.
+    </p>
+    <div class="btn-row">
+      <span></span>
+      <button class="btn" onclick="startTool()">Tool starten →</button>
+    </div>
+  </section>
+
+  <!-- MODE -->
+  <section class="card hidden" id="screen-mode">
+    <div class="section-header">
+      <div class="kicker">Schritt 1</div>
+      <h2>Was möchten Sie analysieren?</h2>
+      <p class="muted">Sie können einen Bereich oder beide auswählen.</p>
+    </div>
+    <div class="mode-grid">
+      <div class="mode-card selected" data-mode="reifegrad" onclick="toggleMode('reifegrad')">
+        <div class="icon">R</div>
+        <h3>Reifegrad-Check</h3>
+        <p class="muted" style="margin:0;">
+          Wie professionell ist Ihre Markenführung organisiert? Strategie, Manual, Prozesse, Technologie, KI.
+        </p>
+      </div>
+      <div class="mode-card selected" data-mode="audit" onclick="toggleMode('audit')">
+        <div class="icon">A</div>
+        <h3>CD-Audit</h3>
+        <p class="muted" style="margin:0;">
+          Wie konsistent ist Ihr CD über alle Kanäle? Logo, Farbe, Typo, Bildwelt, Templates.
+        </p>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="show('welcome')">← Zurück</button>
+      <button class="btn" id="modeNext" onclick="startQuestionnaire()">Weiter →</button>
+    </div>
+  </section>
+
+  <!-- ORG INFO -->
+  <section class="card hidden" id="screen-org">
+    <div class="section-header">
+      <div class="kicker">Schritt 2</div>
+      <h2>Kurz zu Ihrer Organisation</h2>
+      <p class="muted">Diese Angaben helfen, die Empfehlung zu schärfen. Alle Felder sind optional.</p>
+    </div>
+    <div class="question">
+      <div class="q-text">Name der Organisation (optional)</div>
+      <input type="text" id="orgName" placeholder="z.B. Musterfirma GmbH"
+             style="width:100%; padding: 0.75rem; border:1.5px solid var(--gray-100); border-radius: var(--radius); font-size:1rem;" />
+    </div>
+    <div class="question">
+      <div class="q-text">Wie alt ist Ihr aktuelles Corporate Design?</div>
+      <div class="likert" id="cd-age">
+        <div class="likert-option" data-value="1"><span class="num">&lt; 1 J.</span></div>
+        <div class="likert-option" data-value="2"><span class="num">1–3 J.</span></div>
+        <div class="likert-option" data-value="3"><span class="num">3–5 J.</span></div>
+        <div class="likert-option" data-value="4"><span class="num">5–10 J.</span></div>
+        <div class="likert-option" data-value="5"><span class="num">&gt; 10 J.</span></div>
+      </div>
+    </div>
+    <div class="question">
+      <div class="q-text">Wie viele Mitarbeitende hat Ihre Organisation?</div>
+      <div class="likert" id="org-size">
+        <div class="likert-option" data-value="1"><span class="num">&lt; 10</span></div>
+        <div class="likert-option" data-value="2"><span class="num">10–50</span></div>
+        <div class="likert-option" data-value="3"><span class="num">50–250</span></div>
+        <div class="likert-option" data-value="4"><span class="num">250–1000</span></div>
+        <div class="likert-option" data-value="5"><span class="num">&gt; 1000</span></div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="show('mode')">← Zurück</button>
+      <button class="btn" onclick="startQuestionnaire()">Weiter →</button>
+    </div>
+  </section>
+
+  <!-- QUESTIONNAIRE -->
+  <section class="card hidden" id="screen-questionnaire">
+    <div class="section-header">
+      <div class="kicker" id="qSectionKicker">Reifegrad-Check</div>
+      <h2 id="qSectionTitle">Markenstrategie &amp; Identität</h2>
+      <p class="muted" id="qSectionLead">Bewerten Sie, wie stark die folgenden Aussagen auf Ihre Organisation zutreffen.</p>
+    </div>
+    <div id="qContainer"></div>
+    <div class="btn-row">
+      <button class="btn-ghost" id="qBack">← Zurück</button>
+      <button class="btn" id="qNext" disabled>Weiter →</button>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="hidden" id="screen-results">
+    <div class="card">
+      <div class="section-header">
+        <div class="kicker">Auswertung</div>
+        <h1 id="resultTitle">Ihr Marken-Status</h1>
+        <p class="muted" id="resultOrg"></p>
+      </div>
+
+      <div id="scoreContainer"></div>
+
+      <div class="recommendation" id="recBox">
+        <h3>Unsere Empfehlung</h3>
+        <span class="rec-tag" id="recTag">—</span>
+        <p id="recText"></p>
+        <p class="muted" id="recReason" style="margin-top:0.5rem;"></p>
+      </div>
+    </div>
+
+    <div class="card" id="dimensionsCard">
+      <h2>Detail-Auswertung</h2>
+      <p class="muted">Je länger der Balken, desto besser bewertet.</p>
+      <div id="dimensionBars"></div>
+    </div>
+
+    <div class="card">
+      <h2>Nächste Schritte</h2>
+      <ul class="actions-list" id="actionList"></ul>
+    </div>
+
+    <div class="card no-print">
+      <h2>Ergebnis sichern</h2>
+      <p class="muted">Sie können das Ergebnis als PDF drucken oder als Datei sichern, um es später weiterzubearbeiten.</p>
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="window.print()">Als PDF drucken</button>
+        <button class="btn-secondary" onclick="exportJSON()">Daten exportieren (JSON)</button>
+        <button class="btn-ghost" onclick="restart()">Neu starten</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  CD-Reifegrad &amp; Audit-Tool · Beratungsprodukt zur Triage „Refresh, technologische Anpassung oder Relaunch?“
+</footer>
+
+<script>
+"use strict";
+
+/* ====================================================================
+   QUESTION CATALOG
+   ==================================================================== */
+
+const REIFEGRAD = [
+  {
+    group: "Markenstrategie & Identität",
+    questions: [
+      { id: "r_strat_1", text: "Wir haben eine schriftlich festgehaltene Markenstrategie (Werte, Vision, Mission).",
+        help: "Eine Marken­strategie beschreibt, wofür Ihre Marke steht und wohin sie sich entwickeln soll." },
+      { id: "r_strat_2", text: "Unsere Mitarbeitenden wissen, wofür unsere Marke steht.",
+        help: "Können Mitarbeitende den Markenkern in eigenen Worten erklären?" },
+      { id: "r_strat_3", text: "Wichtige Entscheidungen zur Kommunikation werden auf Basis der Markenstrategie getroffen.",
+        help: "Wird die Strategie aktiv im Alltag herangezogen — oder liegt sie nur in der Schublade?" },
+    ]
+  },
+  {
+    group: "Corporate Design Manual",
+    questions: [
+      { id: "r_man_1", text: "Es existiert ein aktuelles CD-Manual oder ein Brand Guide.",
+        help: "Das CD-Manual beschreibt verbindlich, wie Logo, Farben, Typografie usw. einzusetzen sind." },
+      { id: "r_man_2", text: "Das Manual wurde in den letzten 2 Jahren aktualisiert.",
+        help: "Veraltete Manuals führen schnell zu uneinheitlicher Anwendung." },
+      { id: "r_man_3", text: "Das Manual ist für alle relevanten Personen leicht zugänglich.",
+        help: "z.B. über Intranet, Brand Portal oder geteilte Cloud." },
+    ]
+  },
+  {
+    group: "Assets & Vorlagen",
+    questions: [
+      { id: "r_ass_1", text: "Wir haben ein zentrales, gepflegtes Repository für Logos, Bilder und Vorlagen.",
+        help: "„Zentral“ heißt: alle finden dort die gleichen, aktuellen Dateien." },
+      { id: "r_ass_2", text: "Für die wichtigsten Anwendungen (Word, PowerPoint, Web, Social, Print) gibt es einsatzfertige Vorlagen.",
+        help: "Vorlagen sparen Zeit und sorgen für Einheitlichkeit." },
+      { id: "r_ass_3", text: "Diese Vorlagen werden regelmäßig gepflegt und aktualisiert.",
+        help: "Veraltete Vorlagen werden umgangen — und das CD bröckelt." },
+    ]
+  },
+  {
+    group: "Governance & Prozesse",
+    questions: [
+      { id: "r_gov_1", text: "Es gibt eine klar benannte Verantwortlichkeit für das Corporate Design (z.B. CD-Manager:in).",
+        help: "Ohne Verantwortliche/n verwässert das CD über die Zeit." },
+      { id: "r_gov_2", text: "Es gibt definierte Freigabeprozesse für neue Kommunikationsmaterialien.",
+        help: "Wer prüft, dass Materialien dem CD entsprechen, bevor sie veröffentlicht werden?" },
+      { id: "r_gov_3", text: "Verstöße gegen das CD werden systematisch erkannt und behoben.",
+        help: "Gibt es ein Monitoring oder regelmäßige Audits?" },
+    ]
+  },
+  {
+    group: "Technologie & KI",
+    questions: [
+      { id: "r_tec_1", text: "Wir nutzen Design Tokens oder strukturierte Design-Daten (z.B. Farben, Schriften als zentrale Variablen).",
+        help: "Design Tokens machen das CD maschinenlesbar und über Tools hinweg konsistent." },
+      { id: "r_tec_2", text: "Wir setzen KI-Tools im Markenprozess gezielt ein (z.B. Texterstellung, Asset-Generierung).",
+        help: "KI kann Tempo und Skalierbarkeit massiv erhöhen — wenn sie kontrolliert eingesetzt wird." },
+      { id: "r_tec_3", text: "Wir haben Governance / Leitplanken für KI-generierte Inhalte.",
+        help: "Klare Regeln verhindern, dass KI-Outputs unkontrolliert in Markenkommunikation landen." },
+    ]
+  }
+];
+
+const CD_AUDIT = [
+  {
+    group: "Visuelle Konsistenz",
+    questions: [
+      { id: "a_vis_logo", text: "Logo-Anwendung",
+        help: "Wird das Logo überall korrekt, in gleicher Form, gleichen Farben und Schutzräumen eingesetzt?" },
+      { id: "a_vis_color", text: "Farbpalette",
+        help: "Werden über alle Touchpoints dieselben Farben (CI-Farben + Sekundärpalette) verwendet?" },
+      { id: "a_vis_typo", text: "Typografie",
+        help: "Einheitliche Schriften, Größen und Hierarchien?" },
+      { id: "a_vis_image", text: "Bildwelt / Fotografie",
+        help: "Erkennbarer, konsistenter Bildstil über alle Kanäle?" },
+      { id: "a_vis_illu", text: "Illustrationen / Grafiken / Icons",
+        help: "Einheitlicher Stil bei Icons, Illustrationen, Infografiken?" },
+      { id: "a_vis_layout", text: "Layout, Raster &amp; Gestaltungsprinzipien",
+        help: "Wiederkehrende Layoutmuster, klare Hierarchie, gemeinsame Designprinzipien?" },
+    ]
+  },
+  {
+    group: "Inhalt & Sprache",
+    questions: [
+      { id: "a_lang_tone", text: "Tonalität &amp; Sprachstil",
+        help: "Klingt Ihre Marke an allen Berührungspunkten gleich (formal/casual, freundlich/sachlich)?" },
+      { id: "a_lang_terms", text: "Wording &amp; Begrifflichkeiten",
+        help: "Werden zentrale Begriffe einheitlich verwendet?" },
+    ]
+  },
+  {
+    group: "Touchpoints",
+    questions: [
+      { id: "a_tp_web", text: "Web &amp; digitale Touchpoints",
+        help: "Wirken Website, App, Social Media und Newsletter wie aus einem Guss?" },
+      { id: "a_tp_print", text: "Print &amp; analoge Touchpoints",
+        help: "Geschäftsausstattung, Broschüren, Messe — alles im gleichen Stil?" },
+      { id: "a_tp_internal", text: "Interne Kommunikation",
+        help: "Präsentationen, Intranet, interne Mails — folgen sie dem CD?" },
+    ]
+  }
+];
+
+const LIKERT_LABELS = [
+  { num: "1", label: "Trifft nicht zu" },
+  { num: "2", label: "Eher nicht" },
+  { num: "3", label: "Teils/teils" },
+  { num: "4", label: "Eher schon" },
+  { num: "5", label: "Voll zutreffend" },
+];
+
+const AUDIT_LIKERT_LABELS = [
+  { num: "1", label: "Sehr heterogen" },
+  { num: "2", label: "Eher heterogen" },
+  { num: "3", label: "Gemischt" },
+  { num: "4", label: "Eher konsistent" },
+  { num: "5", label: "Sehr konsistent" },
+];
+
+/* ====================================================================
+   STATE
+   ==================================================================== */
+
+const STORAGE_KEY = "cd-tool-state-v1";
+
+const state = {
+  mode: { reifegrad: true, audit: true },
+  org: { name: "", cdAge: null, orgSize: null },
+  answers: {},
+  currentScreen: "welcome",
+  sectionIndex: 0,
+  flow: [],
+};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      Object.assign(state, data);
+    }
+  } catch (e) { /* ignore */ }
+}
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      mode: state.mode,
+      org: state.org,
+      answers: state.answers,
+    }));
+  } catch (e) { /* ignore */ }
+}
+
+/* ====================================================================
+   NAVIGATION
+   ==================================================================== */
+
+function show(screenName) {
+  document.querySelectorAll("main > section").forEach(s => s.classList.add("hidden"));
+  const el = document.getElementById("screen-" + screenName);
+  if (el) el.classList.remove("hidden");
+  state.currentScreen = screenName;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function startTool() {
+  show("mode");
+  document.getElementById("progressWrap").style.display = "block";
+  updateProgress(1, 4);
+}
+
+function toggleMode(mode) {
+  state.mode[mode] = !state.mode[mode];
+  const card = document.querySelector(`[data-mode="${mode}"]`);
+  card.classList.toggle("selected", state.mode[mode]);
+  document.getElementById("modeNext").disabled = !state.mode.reifegrad && !state.mode.audit;
+}
+
+function buildFlow() {
+  const flow = [];
+  if (state.mode.reifegrad) {
+    REIFEGRAD.forEach((g, i) => flow.push({ kind: "reifegrad", group: g, index: i, total: REIFEGRAD.length }));
+  }
+  if (state.mode.audit) {
+    CD_AUDIT.forEach((g, i) => flow.push({ kind: "audit", group: g, index: i, total: CD_AUDIT.length }));
+  }
+  state.flow = flow;
+}
+
+function startQuestionnaire() {
+  if (state.currentScreen === "mode") {
+    show("org");
+    updateProgress(2, 4);
+    return;
+  }
+  state.org.name = document.getElementById("orgName").value;
+  buildFlow();
+  state.sectionIndex = 0;
+  renderSection();
+  show("questionnaire");
+}
+
+function renderSection() {
+  const sec = state.flow[state.sectionIndex];
+  document.getElementById("qSectionKicker").textContent =
+    sec.kind === "reifegrad" ? "Reifegrad-Check" : "CD-Audit";
+  document.getElementById("qSectionTitle").textContent = sec.group.group;
+  document.getElementById("qSectionLead").textContent =
+    sec.kind === "reifegrad"
+      ? "Wie stark treffen die folgenden Aussagen auf Ihre Organisation zu?"
+      : "Wie konsistent ist diese Dimension aktuell über Ihre Kommunikationskanäle?";
+
+  const labels = sec.kind === "reifegrad" ? LIKERT_LABELS : AUDIT_LIKERT_LABELS;
+  const container = document.getElementById("qContainer");
+  container.innerHTML = "";
+
+  sec.group.questions.forEach((q, idx) => {
+    const div = document.createElement("div");
+    div.className = "question";
+    div.innerHTML = `
+      <div class="q-num">${idx + 1} / ${sec.group.questions.length}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="q-help">${q.help}</div>
+      <div class="likert" data-qid="${q.id}">
+        ${labels.map((l, i) => `
+          <div class="likert-option" data-value="${i + 1}">
+            <span class="num">${l.num}</span>
+            <span>${l.label}</span>
+          </div>
+        `).join("")}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  // attach listeners and restore state
+  container.querySelectorAll(".likert").forEach(group => {
+    const qid = group.dataset.qid;
+    if (state.answers[qid]) {
+      const opt = group.querySelector(`[data-value="${state.answers[qid]}"]`);
+      if (opt) opt.classList.add("selected");
+    }
+    group.querySelectorAll(".likert-option").forEach(opt => {
+      opt.addEventListener("click", () => {
+        group.querySelectorAll(".likert-option").forEach(o => o.classList.remove("selected"));
+        opt.classList.add("selected");
+        state.answers[qid] = parseInt(opt.dataset.value, 10);
+        saveState();
+        updateNextButton();
+      });
+    });
+  });
+
+  // back/next setup
+  document.getElementById("qBack").onclick = goBackSection;
+  document.getElementById("qNext").onclick = goNextSection;
+  updateNextButton();
+  updateProgress(3 + state.sectionIndex, 3 + state.flow.length);
+}
+
+function updateNextButton() {
+  const sec = state.flow[state.sectionIndex];
+  const allAnswered = sec.group.questions.every(q => state.answers[q.id] != null);
+  const btn = document.getElementById("qNext");
+  btn.disabled = !allAnswered;
+  const isLast = state.sectionIndex === state.flow.length - 1;
+  btn.textContent = isLast ? "Auswertung →" : "Weiter →";
+}
+
+function goBackSection() {
+  if (state.sectionIndex === 0) {
+    show("org");
+    updateProgress(2, 4);
+    return;
+  }
+  state.sectionIndex--;
+  renderSection();
+}
+
+function goNextSection() {
+  if (state.sectionIndex < state.flow.length - 1) {
+    state.sectionIndex++;
+    renderSection();
+  } else {
+    showResults();
+  }
+}
+
+function updateProgress(current, total) {
+  const pct = Math.round((current / total) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `Schritt ${current} von ${total}`;
+}
+
+/* ====================================================================
+   ORG INFO LIKERT
+   ==================================================================== */
+
+function attachOrgLikert(id, target) {
+  const group = document.getElementById(id);
+  group.querySelectorAll(".likert-option").forEach(opt => {
+    opt.addEventListener("click", () => {
+      group.querySelectorAll(".likert-option").forEach(o => o.classList.remove("selected"));
+      opt.classList.add("selected");
+      state.org[target] = parseInt(opt.dataset.value, 10);
+      saveState();
+    });
+  });
+}
+
+/* ====================================================================
+   SCORING & RESULTS
+   ==================================================================== */
+
+function avg(arr) {
+  if (!arr.length) return 0;
+  return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+function calcReifegrad() {
+  const values = [];
+  const byGroup = {};
+  REIFEGRAD.forEach(g => {
+    const gv = g.questions.map(q => state.answers[q.id]).filter(v => v != null);
+    if (gv.length) byGroup[g.group] = avg(gv);
+    values.push(...gv);
+  });
+  return {
+    score: Math.round(avg(values) * 20),
+    raw: avg(values),
+    byGroup
+  };
+}
+
+function calcAudit() {
+  const values = [];
+  const byGroup = {};
+  CD_AUDIT.forEach(g => {
+    const gv = g.questions.map(q => state.answers[q.id]).filter(v => v != null);
+    if (gv.length) byGroup[g.group] = avg(gv);
+    values.push(...gv);
+  });
+  const consistency = avg(values);
+  return {
+    consistency: Math.round(consistency * 20),
+    heterogeneity: Math.round((5 - consistency) * 25),
+    raw: consistency,
+    byGroup
+  };
+}
+
+function reifegradLevel(score) {
+  if (score < 21) return { name: "Initial", desc: "Wenig systematisch, viel Improvisation." };
+  if (score < 41) return { name: "Definiert", desc: "Grundlagen vorhanden, aber inkonsistent gelebt." };
+  if (score < 61) return { name: "Gemanagt", desc: "Klare Strukturen, gute Umsetzung in Kernbereichen." };
+  if (score < 81) return { name: "Optimiert", desc: "Hohes Niveau, datengetrieben, prozesssicher." };
+  return { name: "KI-integriert", desc: "Marke skaliert mit KI-Unterstützung und Governance." };
+}
+
+function recommend(reifegrad, audit) {
+  const hasAudit = state.mode.audit && audit;
+  const hasReifegrad = state.mode.reifegrad && reifegrad;
+
+  // Determine tech-gap (KI/Token weak even if rest strong)
+  let techGap = 0;
+  if (hasReifegrad && reifegrad.byGroup["Technologie & KI"] != null) {
+    techGap = (3 - reifegrad.byGroup["Technologie & KI"]); // > 0 if weak
+  }
+
+  let r = { tag: "refresh", label: "Refresh", reasons: [] };
+
+  const reifeScore = hasReifegrad ? reifegrad.score : null;
+  const heter = hasAudit ? audit.heterogeneity : null;
+
+  // Heuristics
+  if (reifeScore != null && reifeScore < 35) {
+    r = { tag: "relaunch", label: "Relaunch", reasons: [] };
+    r.reasons.push("Reifegrad sehr niedrig — Markenfundament fehlt oder ist nicht verankert.");
+  } else if (heter != null && heter > 60) {
+    r = { tag: "relaunch", label: "Relaunch", reasons: [] };
+    r.reasons.push("Stark heterogenes Erscheinungsbild — eine punktuelle Korrektur reicht nicht.");
+  } else if (techGap > 1.2 && (reifeScore == null || reifeScore >= 45)) {
+    r = { tag: "tech", label: "Technologische Anpassung", reasons: [] };
+    r.reasons.push("Markenführung solide, aber Technologie/KI-Reife liegt zurück — Anpassung priorisiert.");
+  } else if ((reifeScore != null && reifeScore < 55) || (heter != null && heter > 40)) {
+    r = { tag: "refresh", label: "Refresh", reasons: [] };
+    r.reasons.push("Grundsubstanz ist da — gezielte Auffrischung und Lückenschluss reichen aus.");
+  } else {
+    r = { tag: "refresh", label: "Refresh (vorbeugend)", reasons: [] };
+    r.reasons.push("Solide Basis — kleine Refresh-Maßnahmen halten die Marke vital.");
+  }
+
+  if (state.org.cdAge >= 4) r.reasons.push(`CD ist ${state.org.cdAge === 5 ? "über 10" : "5–10"} Jahre alt — Modernisierungsbedarf wahrscheinlich.`);
+  if (techGap > 1.2 && r.tag !== "tech") r.reasons.push("Zusätzlich: Technologie-/KI-Lücke parallel adressieren.");
+
+  return r;
+}
+
+function buildActions(reifegrad, audit, rec) {
+  const actions = [];
+  if (rec.tag === "relaunch") {
+    actions.push("Strategie & Zielbild erarbeiten (Workshop, Stakeholder-Einbindung).");
+    actions.push("9-Phasen-Steuerung für den Relaunch aufsetzen.");
+    actions.push("Business Case und Investitionsrechnung erstellen.");
+    actions.push("Change & Kommunikation früh planen, Multiplikatoren benennen.");
+    actions.push("Markengehirn (zentrales Wissens- und Asset-System) aufbauen.");
+  } else if (rec.tag === "tech") {
+    actions.push("Technologie-Assessment der aktuellen Tool-Landschaft.");
+    actions.push("Design Tokens und strukturierte Markendaten einführen.");
+    actions.push("KI-Readiness prüfen und Roadmap definieren.");
+    actions.push("Team-Enablement: Train-the-Trainer für neue Tools/KI.");
+    actions.push("Governance & Leitplanken für generative Produktion definieren.");
+  } else {
+    actions.push("CD-Audit der wichtigsten Touchpoints (priorisiert).");
+    actions.push("Refresh-Konzept: was bleibt, was wird modernisiert?");
+    actions.push("Vorlagen-/Asset-Refresh-Plan inklusive Rollout-Reihenfolge.");
+    actions.push("Anwender-Update-Schulung für Mitarbeitende.");
+    actions.push("CD-Manager:in begleiten und Freigabeprozesse stärken.");
+  }
+
+  // Add specific weak-point actions from reifegrad
+  if (reifegrad) {
+    Object.entries(reifegrad.byGroup).forEach(([g, v]) => {
+      if (v < 2.5) actions.push(`Schwerpunkt setzen auf: ${g} — aktuell die größte Lücke.`);
+    });
+  }
+  if (audit) {
+    Object.entries(audit.byGroup).forEach(([g, v]) => {
+      if (v < 2.5) actions.push(`CD-Schwerpunkt: ${g} — hier ist die Heterogenität am höchsten.`);
+    });
+  }
+  return actions;
+}
+
+function showResults() {
+  const reifegrad = state.mode.reifegrad ? calcReifegrad() : null;
+  const audit = state.mode.audit ? calcAudit() : null;
+
+  document.getElementById("resultOrg").textContent =
+    state.org.name ? `Auswertung für: ${state.org.name}` : "Anonyme Auswertung";
+
+  // Score cards
+  const sc = document.getElementById("scoreContainer");
+  let html = "";
+  if (reifegrad && audit) {
+    html += `<div class="score-grid">
+      <div class="result-score">
+        <div class="label">Reifegrad</div>
+        <div class="big-num">${reifegrad.score}</div>
+        <div class="level">${reifegradLevel(reifegrad.score).name}</div>
+      </div>
+      <div class="result-score heterogen">
+        <div class="label">Heterogenität</div>
+        <div class="big-num">${audit.heterogeneity}</div>
+        <div class="level">${audit.heterogeneity > 60 ? "stark" : audit.heterogeneity > 30 ? "mittel" : "gering"}</div>
+      </div>
+    </div>`;
+  } else if (reifegrad) {
+    html += `<div class="result-score">
+      <div class="label">Reifegrad-Score</div>
+      <div class="big-num">${reifegrad.score}</div>
+      <div class="level">${reifegradLevel(reifegrad.score).name}</div>
+    </div>`;
+  } else if (audit) {
+    html += `<div class="result-score heterogen">
+      <div class="label">Heterogenitäts-Index</div>
+      <div class="big-num">${audit.heterogeneity}</div>
+      <div class="level">${audit.heterogeneity > 60 ? "stark heterogen" : audit.heterogeneity > 30 ? "gemischt" : "konsistent"}</div>
+    </div>`;
+  }
+  if (reifegrad) {
+    html += `<p class="muted" style="margin-top:0.5rem;"><strong>Reifegrad-Stufe:</strong> ${reifegradLevel(reifegrad.score).desc}</p>`;
+  }
+  sc.innerHTML = html;
+
+  // Recommendation
+  const rec = recommend(reifegrad, audit);
+  const recTag = document.getElementById("recTag");
+  recTag.className = "rec-tag " + rec.tag;
+  recTag.textContent = rec.label;
+  document.getElementById("recText").textContent =
+    rec.tag === "relaunch" ? "Wir empfehlen einen vollständigen Relaunch — also einen Neuaufbau von Strategie, CD und Implementierung." :
+    rec.tag === "tech"      ? "Wir empfehlen eine technologische Anpassung — die Marke ist solide, aber das Tool- und KI-Fundament muss nachgezogen werden." :
+                              "Wir empfehlen einen Refresh — gezielte Modernisierung statt großem Neuaufbau.";
+  document.getElementById("recReason").innerHTML =
+    "<strong>Begründung:</strong> " + rec.reasons.join(" ");
+
+  // Dimension bars
+  const dimContainer = document.getElementById("dimensionBars");
+  dimContainer.innerHTML = "";
+  const addBars = (data, prefix) => {
+    Object.entries(data).forEach(([name, val]) => {
+      const lvl = Math.max(1, Math.min(5, Math.round(val)));
+      const pct = Math.round((val / 5) * 100);
+      const div = document.createElement("div");
+      div.className = "dim-bar";
+      div.innerHTML = `
+        <div>${prefix}${name}</div>
+        <div class="bar-track"><div class="bar-fill level-${lvl}" style="width:${pct}%"></div></div>
+        <div class="bar-value">${val.toFixed(1)}</div>
+      `;
+      dimContainer.appendChild(div);
+    });
+  };
+  if (reifegrad) addBars(reifegrad.byGroup, "R · ");
+  if (audit) addBars(audit.byGroup, "A · ");
+
+  // Actions
+  const actionUl = document.getElementById("actionList");
+  actionUl.innerHTML = "";
+  buildActions(reifegrad, audit, rec).forEach(a => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span class="check">→</span><span>${a}</span>`;
+    actionUl.appendChild(li);
+  });
+
+  show("results");
+  updateProgress(4, 4);
+}
+
+/* ====================================================================
+   EXPORT / IMPORT / RESTART
+   ==================================================================== */
+
+function exportJSON() {
+  const data = {
+    exportedAt: new Date().toISOString(),
+    org: state.org,
+    mode: state.mode,
+    answers: state.answers,
+    reifegrad: state.mode.reifegrad ? calcReifegrad() : null,
+    audit: state.mode.audit ? calcAudit() : null,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `cd-tool-ergebnis-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function restart() {
+  if (!confirm("Möchten Sie wirklich neu starten? Alle Eingaben werden gelöscht.")) return;
+  localStorage.removeItem(STORAGE_KEY);
+  state.answers = {};
+  state.org = { name: "", cdAge: null, orgSize: null };
+  state.mode = { reifegrad: true, audit: true };
+  state.sectionIndex = 0;
+  document.getElementById("orgName").value = "";
+  document.querySelectorAll(".likert-option.selected").forEach(o => o.classList.remove("selected"));
+  document.getElementById("progressWrap").style.display = "none";
+  show("welcome");
+}
+
+/* ====================================================================
+   INIT
+   ==================================================================== */
+
+function init() {
+  loadState();
+  attachOrgLikert("cd-age", "cdAge");
+  attachOrgLikert("org-size", "orgSize");
+  // Restore selected mode cards
+  document.querySelectorAll(".mode-card").forEach(c => {
+    const m = c.dataset.mode;
+    c.classList.toggle("selected", !!state.mode[m]);
+  });
+  // Restore org likerts
+  if (state.org.cdAge) {
+    const opt = document.querySelector(`#cd-age [data-value="${state.org.cdAge}"]`);
+    if (opt) opt.classList.add("selected");
+  }
+  if (state.org.orgSize) {
+    const opt = document.querySelector(`#org-size [data-value="${state.org.orgSize}"]`);
+    if (opt) opt.classList.add("selected");
+  }
+  if (state.org.name) document.getElementById("orgName").value = state.org.name;
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+
+</body>
+</html>
