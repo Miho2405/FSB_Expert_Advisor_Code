@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pwman"
+version = "1.0.0"
+description = "Offline, end-to-end encrypted command line password manager"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "pwman contributors" }]
+keywords = ["password", "manager", "encryption", "argon2", "aes-gcm", "totp"]
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+]
+dependencies = [
+    "cryptography>=41",   # AES-256-GCM, ChaCha20-Poly1305, HKDF
+]
+
+[project.optional-dependencies]
+# Strongly recommended: enables Argon2id key derivation.  Without it pwman
+# falls back to scrypt, which is memory-hard as well but less resistant to
+# GPU/ASIC attackers at comparable settings.
+argon2 = ["argon2-cffi>=21.3"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+pwman = "pwman.cli:main"
+
+[tool.setuptools]
+packages = ["pwman"]
+
+[tool.setuptools.package-data]
+pwman = ["wordlist.txt", "common_words.txt"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error::DeprecationWarning:pwman.*"]
