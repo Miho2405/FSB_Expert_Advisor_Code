@@ -29,7 +29,11 @@ class VaultFormatError(PwmanError):
 
 
 class VaultError(PwmanError):
-    """Vault content level error (unknown entry, duplicate name, ...)."""
+    """Vault content level error (duplicate name, empty name, ambiguous match)."""
+
+
+class EntryNotFound(VaultError):
+    """No entry matches the given name or id."""
 
 
 class ClipboardError(PwmanError):

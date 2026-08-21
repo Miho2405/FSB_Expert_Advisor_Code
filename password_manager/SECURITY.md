@@ -137,14 +137,64 @@ future formats.
   saving checks that the file's identity (inode, size, mtime) is unchanged since
   unlocking, and refuses rather than clobber a parallel session's work.
 
-## 5. TOTP: a deliberate compromise
+## 5. The web interface
+
+`pwman web` puts an unlocked vault behind an HTTP port, which needs its own
+justification. The crypto stays where it was: the browser is a thin client and
+every key lives in the `pwman` process. Doing it the other way round -- deriving
+the key in the browser -- would mean shipping Argon2id as a WebAssembly blob or
+falling back to PBKDF2, the only password KDF WebCrypto offers. That would be a
+downgrade, not a "zero-knowledge" improvement.
+
+What guards the port:
+
+* **Loopback only.** The server refuses to bind to anything but 127.0.0.1/::1,
+  so it is never on the network. There is no flag to override this.
+* **`Host` header pinning.** The most important check here. A hostile web page
+  can point its own domain at 127.0.0.1 (DNS rebinding) and would then be
+  *same-origin* with this server, defeating every same-origin protection.
+  Requests whose `Host` is not the loopback name being served are rejected
+  before any handler runs.
+* **CSRF token in a custom header.** Cross-origin JavaScript cannot set
+  `X-CSRF-Token` without a preflight, and no CORS headers are ever sent, so a
+  preflight is never granted. Bodies must be `application/json`, which is
+  itself impossible for a cross-origin "simple" request.
+* **`Origin` pinning** whenever the header is present.
+* **Cookies** are `HttpOnly` + `SameSite=Strict`. (`Secure` is not set: browsers
+  drop `Secure` cookies over plain http, and loopback traffic never hits a
+  wire. Loopback is treated as a secure context, so the clipboard API works.)
+* **Content-Security-Policy** `default-src 'none'` with no `unsafe-inline` and
+  no external origins -- the interface has no inline script or style and loads
+  nothing from the internet. It is strict enough that browser automation tools
+  cannot `eval` inside the page.
+* **Passwords are not in listings.** The list and detail endpoints never carry a
+  password; a separate guarded POST returns one, so an accidental log or a
+  screenshot of the page does not spill the vault.
+* **Idle auto-lock** runs on a watchdog thread, not on page activity, and the
+  page's own status polling is deliberately excluded from the activity timer --
+  a forgotten tab must not keep the vault open forever.
+* **Rate limiting.** Failed unlock attempts add a growing delay on top of the
+  Argon2id cost.
+
+What it does not solve:
+
+* **Anyone who can reach loopback can reach the port.** On a shared machine any
+  local user can talk to it -- they still need the master password, but on a
+  multi-user box prefer the CLI.
+* **Browser extensions.** An extension with access to localhost pages can read
+  whatever is on screen, including a revealed password. The browser you run
+  this in is part of your trusted base.
+* **A second window takes over.** Unlocking again issues a fresh session and
+  invalidates the previous one; the old tab is told so explicitly.
+
+## 6. TOTP: a deliberate compromise
 
 Storing TOTP seeds next to passwords means one stolen, unlocked vault yields
 both factors — that weakens the "something you have" property. It is offered
 anyway because the realistic alternative is people not using 2FA at all. If a
 site protects something critical, keep its seed on a separate device.
 
-## 6. The strength estimator is a heuristic
+## 7. The strength estimator is a heuristic
 
 `pwman audit` prices a password by the cheapest of several attacker strategies
 (character search, dictionary segmentation over ~2300 words, a list of the most
@@ -153,15 +203,15 @@ has a far larger dictionary and knows more patterns. Entropy of *generated*
 secrets, by contrast, is exact — it comes from the generator's own distribution,
 including the small cost of the "must contain each class" rule.
 
-## 7. Verifying the claims
+## 8. Verifying the claims
 
 ```bash
-python3 -m pytest                     # tamper, downgrade, swap, permission and wipe tests
+python3 -m pytest                     # tamper, downgrade, swap, permission, wipe and web tests
 python3 -m json.tool ~/.local/share/pwman/vault.pmv   # inspect the header; find no plaintext
 pwman info                            # cipher and real KDF parameters of your vault
 ```
 
-## 8. Reporting a problem
+## 9. Reporting a problem
 
 Open an issue describing the impact and how to reproduce it. Please do not
 include vault files, master passwords, or real credentials in a bug report.

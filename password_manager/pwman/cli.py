@@ -514,6 +514,21 @@ def cmd_import(args: argparse.Namespace, out: Out) -> int:
     return OK
 
 
+def cmd_web(args: argparse.Namespace, out: Out) -> int:
+    """Serve the browser interface on loopback.  The vault starts locked."""
+    from .web import serve
+
+    return serve(
+        args.vault,
+        host=args.host,
+        port=args.port,
+        idle_timeout=args.timeout_lock,
+        open_browser=not args.no_browser,
+        verbose=args.verbose,
+        announce=out.say,
+    )
+
+
 def cmd_shell(args: argparse.Namespace, out: Out) -> int:
     from .shell import run_shell
 
@@ -658,6 +673,14 @@ def build_parser() -> argparse.ArgumentParser:
     importer.add_argument("--replace", action="store_true", help="overwrite entries with the same name")
     importer.add_argument("--dry-run", action="store_true")
     importer.set_defaults(func=cmd_import)
+
+    web = subparsers.add_parser("web", help="browser interface on localhost (unlock in the browser)")
+    web.add_argument("--port", type=int, default=8765, help="port to listen on (default 8765, 0 = pick one)")
+    web.add_argument("--host", default="127.0.0.1", help="loopback address to bind (127.0.0.1 or ::1)")
+    web.add_argument("--timeout-lock", type=int, default=300, help="idle seconds before locking (default 300)")
+    web.add_argument("--no-browser", action="store_true", help="do not open a browser window")
+    web.add_argument("--verbose", action="store_true", help="log requests to stderr")
+    web.set_defaults(func=cmd_web)
 
     shell = subparsers.add_parser("shell", help="interactive session (unlock once, auto-locks when idle)")
     shell.add_argument("--timeout-lock", type=int, default=300, help="idle seconds before locking (default 300)")

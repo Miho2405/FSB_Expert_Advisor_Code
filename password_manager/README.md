@@ -89,6 +89,28 @@ pwman> passwd github --generate
 pwman> lock
 ```
 
+## Browser interface
+
+```bash
+pwman web                      # http://localhost:8765, opens your browser
+pwman web --port 9000 --no-browser --timeout-lock 120
+```
+
+The server binds to loopback only and starts **locked**: the master password is
+typed in the browser, the vault is decrypted in the `pwman` process, and the
+page is a thin client. Passwords are never part of a listing -- the page asks
+for one only when you press Reveal or Copy, and copies are wiped from the
+clipboard after 20 seconds. The vault auto-locks when idle even if you close the
+tab, and Ctrl-C wipes the keys.
+
+What guards it (details in [SECURITY.md](SECURITY.md)): loopback-only binding,
+`Host` header pinning against DNS rebinding, a CSRF token in a custom header,
+`HttpOnly`/`SameSite=Strict` cookies, a strict CSP with no inline script or
+style, and no CORS headers at all.
+
+This is also the most comfortable way to use pwman on a phone: run
+`pwman web` in Termux and open `localhost:8765` in the phone's browser.
+
 Exit codes: `0` ok, `1` error, `2` usage, `3` wrong master password, `4` audit
 findings (so `pwman audit` is usable in a cron job).
 
@@ -126,16 +148,20 @@ printf '%s\n%s\n' "$OLD" "$NEW" | pwman --password-stdin passwd
 
 ```bash
 python3 -m pip install -r requirements-dev.txt
-python3 -m pytest            # 211 tests, ~6 s
+python3 -m pytest            # 264 tests, ~15 s
 ```
 
 The suite covers the crypto envelope (round trips, tamper detection on every
 field, downgrade and cross-vault swap attempts), atomic writes and file modes,
 generator uniformity and entropy accounting, RFC 6238 TOTP vectors, the
-k-anonymity breach check (offline, with a stub), and the CLI end to end.
+k-anonymity breach check (offline, with a stub), the CLI end to end, and the web
+interface over real HTTP -- including rebinding, CSRF, cookie and auto-lock
+behaviour. The browser UI itself was driven in Chromium (unlock, reveal, copy,
+generate, audit, auto-clear) with the CSP enforced.
 
 ## Limitations worth knowing
 
 pwman protects a file at rest. It cannot protect you from malware, a keylogger,
-or someone reading your unlocked screen. Python also cannot reliably wipe
+a browser extension reading the unlocked page, or someone reading your unlocked
+screen. Python also cannot reliably wipe
 strings from memory. See [SECURITY.md](SECURITY.md) for the full, honest list.

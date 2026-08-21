@@ -13,7 +13,7 @@ from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from typing import Any, Iterable, Iterator
 
-from .errors import VaultError, VaultFormatError
+from .errors import EntryNotFound, VaultError, VaultFormatError
 
 SCHEMA = 1
 HISTORY_LIMIT = 10
@@ -144,7 +144,7 @@ class Vault:
         if len(matches) == 1:
             return matches[0]
         if not matches:
-            raise VaultError(f"no entry matching {needle!r}")
+            raise EntryNotFound(f"no entry matching {needle!r}")
         listed = ", ".join(sorted(e.name for e in matches)[:10])
         raise VaultError(f"{needle!r} matches {len(matches)} entries: {listed}")
 

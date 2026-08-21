@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>pwman</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <!-- Locked: the only thing reachable before the master password is entered. -->
+  <section id="lock-screen" class="lock">
+    <form id="unlock-form" class="lock__card" autocomplete="off">
+      <h1 class="lock__title">pwman</h1>
+      <p class="lock__path" id="lock-path"></p>
+      <label class="field">
+        <span class="field__label">Master password</span>
+        <input type="password" id="master-password" autocomplete="off"
+               autofocus required spellcheck="false">
+      </label>
+      <button type="submit" class="button button--primary" id="unlock-button">Unlock</button>
+      <p class="lock__error" id="lock-error" role="alert"></p>
+      <p class="lock__hint">The vault is decrypted locally. Nothing leaves this machine.</p>
+    </form>
+  </section>
+
+  <div id="main" class="app" hidden>
+    <header class="topbar">
+      <span class="topbar__brand">pwman</span>
+      <span class="topbar__path" id="vault-path"></span>
+      <span class="topbar__spacer"></span>
+      <span class="topbar__idle" id="idle-indicator" title="time until the vault locks itself"></span>
+      <button type="button" class="button" id="audit-button">Audit</button>
+      <button type="button" class="button" id="new-button">New entry</button>
+      <button type="button" class="button button--danger" id="lock-button">Lock</button>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <input type="search" id="search" class="sidebar__search" placeholder="Search entries"
+               autocomplete="off" spellcheck="false">
+        <div class="sidebar__tags" id="tag-filter"></div>
+        <ul class="entry-list" id="entry-list"></ul>
+        <p class="sidebar__count" id="entry-count"></p>
+      </aside>
+      <main class="detail" id="detail">
+        <p class="detail__empty">Select an entry.</p>
+      </main>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

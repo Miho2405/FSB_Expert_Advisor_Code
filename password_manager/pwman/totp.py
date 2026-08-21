@@ -12,6 +12,7 @@ import base64
 import binascii
 import hashlib
 import hmac
+import math
 import struct
 import time
 from dataclasses import dataclass
@@ -70,7 +71,8 @@ def totp(config: TotpConfig, *, at: float | None = None) -> tuple[str, int]:
         raise PwmanError("TOTP step must be positive")
     counter = int(moment // config.step)
     code = hotp(normalize_secret(config.secret), counter, digits=config.digits, algorithm=config.algorithm)
-    remaining = int(config.step - (moment % config.step))
+    # Round up: a code that is still displayed has at least one second left.
+    remaining = int(math.ceil(config.step - (moment % config.step)))
     return code, remaining
 
 

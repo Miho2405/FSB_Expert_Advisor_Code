@@ -31,10 +31,10 @@ dev = ["pytest>=7"]
 pwman = "pwman.cli:main"
 
 [tool.setuptools]
-packages = ["pwman"]
+packages = ["pwman", "pwman.web"]
 
 [tool.setuptools.package-data]
-pwman = ["wordlist.txt", "common_words.txt"]
+pwman = ["wordlist.txt", "common_words.txt", "web/static/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
