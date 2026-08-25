@@ -189,3 +189,20 @@ def test_unknown_header_fields_are_refused():
     with pytest.raises(VaultFormatError) as error:
         vaultfile.unseal(json.dumps(document).encode(), TEST_MASTER)
     assert "unexpected fields" in str(error.value)
+
+
+def test_windows_mode_bits_do_not_trigger_a_false_warning(tmp_path, monkeypatch):
+    """os.stat fakes 0o666 for writable files on Windows -- warning there would cry wolf."""
+    target = str(tmp_path / "vault.pmv")
+    vaultfile.write_atomic(target, b"data", backup=False)
+    os.chmod(target, 0o666)
+
+    assert vaultfile.permission_warnings(target)  # POSIX: a real problem
+    monkeypatch.setattr(vaultfile, "is_windows", lambda: True)
+    assert vaultfile.permission_warnings(target) == []
+
+
+def test_a_directory_is_still_reported_on_windows(tmp_path, monkeypatch):
+    monkeypatch.setattr(vaultfile, "is_windows", lambda: True)
+    warnings = vaultfile.permission_warnings(str(tmp_path))
+    assert any("not a regular file" in w for w in warnings)

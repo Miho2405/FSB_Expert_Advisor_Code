@@ -130,6 +130,13 @@ future formats.
   new vault, never a truncated one. The previous version stays as `.pmv.bak` —
   note that after `pwman passwd` that backup still opens with the **old** master
   password, so delete it once you are sure.
+* **Windows file permissions.** There are no POSIX mode bits there: `os.stat`
+  reports a synthetic 0o666 for every writable file, so pwman does not check
+  them on Windows (checking would warn about every vault) and does not claim an
+  0600 guarantee it cannot make. Access is governed by the NTFS ACL the vault
+  inherits from your user profile, which by default grants you and
+  administrators only. Anyone with administrator rights on the machine can read
+  the file -- they could read the process memory anyway.
 * **Failures are indistinguishable.** A wrong password and a modified file
   produce the same error. An attacker who can corrupt your file learns nothing
   about which passwords were tried.
@@ -175,6 +182,10 @@ What guards the port:
   a forgotten tab must not keep the vault open forever.
 * **Rate limiting.** Failed unlock attempts add a growing delay on top of the
   Argon2id cost.
+* **No port stealing on Windows.** `SO_REUSEADDR` has different semantics there
+  -- it lets another local process bind the same port and take over connections
+  -- so the option is disabled on Windows and kept on POSIX, where it only
+  shortens the TIME_WAIT wait after a restart.
 
 What it does not solve:
 

@@ -111,3 +111,21 @@ def test_save_refuses_to_clobber_a_parallel_session(vault_path):
     second.close()
     with Session.open(vault_path, TEST_MASTER) as reopened:
         assert reopened.vault.names() == ["from-second"]
+
+
+def test_default_vault_path_uses_appdata_on_windows(monkeypatch):
+    from pwman import session as session_module, vaultfile
+
+    monkeypatch.setattr(vaultfile, "is_windows", lambda: True)
+    monkeypatch.delenv("PWMAN_VAULT", raising=False)
+    monkeypatch.setenv("APPDATA", r"C:\Users\me\AppData\Roaming")
+    assert session_module.default_vault_path() == os.path.join(
+        r"C:\Users\me\AppData\Roaming", "pwman", "vault.pmv")
+
+
+def test_env_override_still_wins_on_windows(monkeypatch):
+    from pwman import session as session_module, vaultfile
+
+    monkeypatch.setattr(vaultfile, "is_windows", lambda: True)
+    monkeypatch.setenv("PWMAN_VAULT", "custom.pmv")
+    assert session_module.default_vault_path().endswith("custom.pmv")

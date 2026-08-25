@@ -30,6 +30,11 @@ from . import crypto
 from .encoding import b64d, b64e, canonical_json
 from .errors import AuthenticationError, PwmanError, VaultFormatError
 
+def is_windows() -> bool:
+    """Single place to branch on the platform, so tests can patch it."""
+    return os.name == "nt"
+
+
 MAGIC = "PWMANVLT"
 FORMAT = 1
 
@@ -303,7 +308,13 @@ def _fsync_dir(directory: str) -> None:
 
 
 def permission_warnings(path: str) -> list[str]:
-    """Warn if the vault (or its directory) is readable by other local users."""
+    """Warn if the vault is readable by other local users.
+
+    Windows has no POSIX mode bits -- ``os.stat`` synthesises 0o666 for every
+    writable file -- so checking them there would warn about every single vault.
+    Access is governed by the NTFS ACL inherited from the user profile instead,
+    which by default grants the owner and administrators only.
+    """
     warnings: list[str] = []
     try:
         info = os.stat(path)
@@ -311,6 +322,8 @@ def permission_warnings(path: str) -> list[str]:
         return warnings
     if not stat.S_ISREG(info.st_mode):
         warnings.append(f"{path} is not a regular file")
+    if is_windows():
+        return warnings
     if info.st_mode & (stat.S_IRWXG | stat.S_IRWXO):
         warnings.append(f"{path} is accessible to other users (mode {stat.S_IMODE(info.st_mode):04o}); chmod 600 it")
     return warnings

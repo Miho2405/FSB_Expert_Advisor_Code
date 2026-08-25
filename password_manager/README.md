@@ -28,6 +28,17 @@ $ pwman shell                      # unlock once, auto-locks when idle
 
 Full design and threat model: [SECURITY.md](SECURITY.md).
 
+## Windows: just double-click
+
+Download the repository, then double-click **`start-windows.cmd`** in the
+`password_manager` folder. It sets up a private Python environment on first run,
+walks you through creating the vault, and opens the browser interface. Closing
+the window stops the server and wipes the keys.
+
+If Windows has no Python yet, the script says so and prints the one command that
+installs it (`winget install Python.Python.3.12`). Everything below is the
+manual equivalent, and applies to every platform.
+
 ## Install
 
 ```bash
@@ -116,8 +127,15 @@ findings (so `pwman audit` is usable in a cron job).
 
 ## Where the vault lives
 
-`$PWMAN_VAULT`, else `$XDG_DATA_HOME/pwman/vault.pmv`, else
-`~/.local/share/pwman/vault.pmv`. Override per command with `--vault`.
+`$PWMAN_VAULT` wins if it is set. Otherwise the platform convention applies:
+
+| Platform | Default vault |
+| --- | --- |
+| Linux / BSD | `$XDG_DATA_HOME/pwman/vault.pmv`, else `~/.local/share/pwman/vault.pmv` |
+| macOS | `~/.local/share/pwman/vault.pmv` |
+| Windows | `%APPDATA%\pwman\vault.pmv` |
+
+Override per command with `--vault`.
 
 Back it up by copying that file: it is encrypted at rest, so a copy on a USB
 stick or in cloud storage is as safe as your master password. Keep the master
@@ -148,7 +166,7 @@ printf '%s\n%s\n' "$OLD" "$NEW" | pwman --password-stdin passwd
 
 ```bash
 python3 -m pip install -r requirements-dev.txt
-python3 -m pytest            # 264 tests, ~15 s
+python3 -m pytest            # 271 tests, ~16 s
 ```
 
 The suite covers the crypto envelope (round trips, tamper detection on every

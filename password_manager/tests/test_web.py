@@ -152,14 +152,36 @@ def test_security_headers_on_every_response(web):
         assert "Python" not in headers.get("Server", "")
 
 
-def test_oversized_and_malformed_bodies_are_refused(web):
-    status, _, payload, _ = web.request("POST", "/api/unlock", raw_body=b"x" * (1 << 20) + b"x",
-                                        headers={"Content-Length": str((1 << 20) + 1)}, csrf=False)
+def test_an_oversized_body_is_refused_from_the_header_alone(web):
+    """The declared length is rejected before a single byte is read.
+
+    Announcing the size without sending it also keeps the test deterministic:
+    actually pushing a megabyte races the server closing the connection.
+    """
+    connection = http.client.HTTPConnection("127.0.0.1", web.port, timeout=10)
+    connection.putrequest("POST", "/api/unlock", skip_host=True)
+    connection.putheader("Host", f"127.0.0.1:{web.port}")
+    connection.putheader("Content-Type", "application/json")
+    connection.putheader("Content-Length", str((1 << 20) + 1))
+    connection.endheaders()
+    connection.send(b"{}")  # far less than announced
+
+    response = connection.getresponse()
+    assert response.status == 400
+    assert "too large" in json.loads(response.read().decode())["error"]
+    connection.close()
+
+
+@pytest.mark.parametrize("body, content_type, expected", [
+    (b"{not json", "application/json", "must be JSON"),
+    (b'"a string"', "application/json", "JSON object"),
+    (b'{"password": "x"}', "text/plain", "application/json"),
+])
+def test_malformed_bodies_are_refused(web, body, content_type, expected):
+    status, _, payload, _ = web.request("POST", "/api/unlock", raw_body=body, csrf=False,
+                                        headers={"Content-Type": content_type})
     assert status == 400
-    status, _, payload, _ = web.request("POST", "/api/unlock", raw_body=b"{not json", csrf=False)
-    assert status == 400
-    status, _, payload, _ = web.request("POST", "/api/unlock", raw_body=b'"a string"', csrf=False)
-    assert status == 400
+    assert expected in payload["error"]
 
 
 # --------------------------------------------------------------------------- #

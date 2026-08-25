@@ -19,10 +19,18 @@ DEFAULT_NAME = "vault.pmv"
 
 
 def default_vault_path() -> str:
-    """``$PWMAN_VAULT``, else ``$XDG_DATA_HOME/pwman/vault.pmv``, else ``~/.local/share/...``."""
+    """Where the vault lives when ``--vault`` is not given.
+
+    ``$PWMAN_VAULT`` always wins.  Otherwise the platform convention applies:
+    ``%APPDATA%\\pwman`` on Windows, ``$XDG_DATA_HOME/pwman`` (or
+    ``~/.local/share/pwman``) everywhere else.
+    """
     override = os.environ.get(ENV_VAULT)
     if override:
         return os.path.abspath(os.path.expanduser(override))
+    if vaultfile.is_windows():
+        base = os.environ.get("APPDATA") or os.path.join(os.path.expanduser("~"), "AppData", "Roaming")
+        return os.path.join(base, "pwman", DEFAULT_NAME)
     base = os.environ.get("XDG_DATA_HOME") or os.path.join(os.path.expanduser("~"), ".local", "share")
     return os.path.join(base, "pwman", DEFAULT_NAME)
 

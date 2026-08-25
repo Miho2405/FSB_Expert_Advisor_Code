@@ -87,7 +87,9 @@ class PwmanHTTPServer(ThreadingHTTPServer):
     """Threading server that carries the application state."""
 
     daemon_threads = True
-    allow_reuse_address = True
+    # SO_REUSEADDR means something different on Windows: it lets another local
+    # process bind the same port and take over connections.  Keep it off there.
+    allow_reuse_address = os.name != "nt"
 
     def __init__(self, address: tuple[str, int], app: WebApp, *, verbose: bool = False) -> None:
         if not is_loopback(address[0]):
